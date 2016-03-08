@@ -1,0 +1,25 @@
+PODS:
+  - AEXML (2.1.0)
+  - Alamofire (3.2.1)
+  - AlamofireXMLRPC (1.0.0):
+    - AEXML
+    - Alamofire
+
+DEPENDENCIES:
+  - AlamofireXMLRPC (from `https://github.com/kodlian/AlamofireXMLRPC.git`)
+
+EXTERNAL SOURCES:
+  AlamofireXMLRPC:
+    :git: https://github.com/kodlian/AlamofireXMLRPC.git
+
+CHECKOUT OPTIONS:
+  AlamofireXMLRPC:
+    :commit: 75b6b86c12e89cd62d7de0dfa73a6beeb7ccb3d7
+    :git: https://github.com/kodlian/AlamofireXMLRPC.git
+
+SPEC CHECKSUMS:
+  AEXML: 0e2f657fdc67e17905682a06d55583a863d80803
+  Alamofire: f11d8624a05f5d39e0c99309b3e600a3ba64298a
+  AlamofireXMLRPC: e07967849f7a43cd60eee336c29afcbe7ca277a9
+
+COCOAPODS: 0.39.0

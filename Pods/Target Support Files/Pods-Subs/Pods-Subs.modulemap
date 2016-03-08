@@ -1,0 +1,6 @@
+framework module Pods_Subs {
+  umbrella header "Pods-Subs-umbrella.h"
+
+  export *
+  module * { export * }
+}
