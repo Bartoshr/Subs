@@ -5,6 +5,7 @@ use_frameworks!
 
 target 'Subs' do
 	pod 'AlamofireXMLRPC', :git => 'https://github.com/kodlian/AlamofireXMLRPC.git'
+	pod 'PathKit'
 end
 
 target 'SubsTests' do

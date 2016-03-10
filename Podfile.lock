@@ -4,9 +4,11 @@ PODS:
   - AlamofireXMLRPC (1.0.0):
     - AEXML
     - Alamofire
+  - PathKit (0.6.0)
 
 DEPENDENCIES:
   - AlamofireXMLRPC (from `https://github.com/kodlian/AlamofireXMLRPC.git`)
+  - PathKit
 
 EXTERNAL SOURCES:
   AlamofireXMLRPC:
@@ -21,5 +23,6 @@ SPEC CHECKSUMS:
   AEXML: 0e2f657fdc67e17905682a06d55583a863d80803
   Alamofire: f11d8624a05f5d39e0c99309b3e600a3ba64298a
   AlamofireXMLRPC: e07967849f7a43cd60eee336c29afcbe7ca277a9
+  PathKit: b224b6d2c4e75b87f08f45e1c0c610a3195c94e5
 
 COCOAPODS: 0.39.0
