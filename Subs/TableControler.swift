@@ -9,6 +9,7 @@
 import Cocoa
 import Alamofire
 import AlamofireXMLRPC
+import PathKit
 
 class TableControler: NSViewController, NSTableViewDataSource, NSTableViewDelegate {
     
@@ -36,7 +37,6 @@ class TableControler: NSViewController, NSTableViewDataSource, NSTableViewDelega
     // Actions
     
     func search(path: String){
-                
         openSubtitles.searchSubtitles(self.token,
             path: path,
             properties: nil,
@@ -64,10 +64,10 @@ class TableControler: NSViewController, NSTableViewDataSource, NSTableViewDelega
         self.tableView.reloadData()
     }
     
+    
     func downloadCompleted(data: [String])->Void {
-       
         let decodedData = NSData(base64EncodedString: data[0], options:NSDataBase64DecodingOptions(rawValue: 0))
-        decodedData?.writeToFile(directory!, atomically: true)
+        decodedData?.writeToFile(directory!+"paczka.gz", atomically: true)
        
     }
     

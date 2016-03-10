@@ -33,11 +33,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         for filename in filenames {
             
-            let filePath = Path(filename).lastComponent
-            print(filePath)
+            let directory = Path(filename).parent()
+            print(directory.description)
             
             tableControler.search(filename)
-            tableControler.directory = "/Users/bartosh/Desktop/paczka.gz"
+            tableControler.directory = directory.description+"/"
         }
         
     }

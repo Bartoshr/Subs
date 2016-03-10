@@ -9,6 +9,7 @@
 import Foundation
 import Alamofire
 import AlamofireXMLRPC
+import PathKit
 
 
 class OpenSubtitles {
@@ -65,9 +66,15 @@ class OpenSubtitles {
                     let subFileName = item["SubFileName"].string
                     let subDownloadLink = item["SubFileName"].string
                     let idSubtitleFile = item["IDSubtitleFile"].string
-                    result.append(Subtitle(subFileName: subFileName!,
+                    
+                    let subtitle = Subtitle(subFileName: subFileName!,
                         subDownloadLink: subDownloadLink!,
-                        idSubtitleFile: idSubtitleFile!))
+                        idSubtitleFile: idSubtitleFile!)
+                    
+                    let filename = Path(path)
+                    
+                    subtitle.fileName = filename.lastComponent;
+                    result.append(subtitle)
                 }
                 
                 callback(result)
