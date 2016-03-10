@@ -20,6 +20,8 @@ class TableControler: NSViewController, NSTableViewDataSource, NSTableViewDelega
     var token : String = ""
     var subtitles : [Subtitle] = []
     var openSubtitles : OpenSubtitles
+    
+    var directory: String? = nil
 
     required init?(coder: NSCoder) {
         openSubtitles = OpenSubtitles(host: host, userAgent: userAgent)
@@ -33,11 +35,11 @@ class TableControler: NSViewController, NSTableViewDataSource, NSTableViewDelega
     
     // Actions
     
-    func search(movieHash: String){
-        let props = ["moviehash":movieHash,"sublanguageid":"eng"] as XMLRPCStructure
-        
+    func search(path: String){
+                
         openSubtitles.searchSubtitles(self.token,
-            properties: props,
+            path: path,
+            properties: nil,
             callback:searchComlpeted)
     }
     
@@ -63,10 +65,9 @@ class TableControler: NSViewController, NSTableViewDataSource, NSTableViewDelega
     }
     
     func downloadCompleted(data: [String])->Void {
-        
-        let path = "/Users/bartosh/Desktop/paczka.gz"
+       
         let decodedData = NSData(base64EncodedString: data[0], options:NSDataBase64DecodingOptions(rawValue: 0))
-        decodedData?.writeToFile(path, atomically: true)
+        decodedData?.writeToFile(directory!, atomically: true)
        
     }
     

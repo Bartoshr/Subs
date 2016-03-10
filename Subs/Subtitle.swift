@@ -10,7 +10,8 @@ import Foundation
 
 class Subtitle {
     
-
+    let fileName : String? = nil
+    
     let subFileName : String
     let subDownloadLink: String
     let idSubtitleFile : String

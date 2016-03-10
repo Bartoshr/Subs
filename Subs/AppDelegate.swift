@@ -7,7 +7,7 @@
 //
 
 import Cocoa
-
+import PathKit
 
 
 @NSApplicationMain
@@ -31,13 +31,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     func application(sender: NSApplication, openFiles filenames: [String]) {
         
-        var osha : OSHashAlgorithm
-        var result: (OSHashAlgorithm.VideoHash)
-        
         for filename in filenames {
-            osha = OSHashAlgorithm()
-            result = osha.hashForPath(filename)
-            tableControler.search(result.fileHash)
+            
+            let filePath = Path(filename).lastComponent
+            print(filePath)
+            
+            tableControler.search(filename)
+            tableControler.directory = "/Users/bartosh/Desktop/paczka.gz"
         }
         
     }
