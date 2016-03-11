@@ -67,8 +67,8 @@ class TableControler: NSViewController, NSTableViewDataSource, NSTableViewDelega
     
     func downloadCompleted(data: [String])->Void {
         let decodedData = NSData(base64EncodedString: data[0], options:NSDataBase64DecodingOptions(rawValue: 0))
-        decodedData?.writeToFile(directory!+"paczka.gz", atomically: true)
-       
+        let decompressedData : NSData = try! decodedData!.gunzippedData()
+        decompressedData.writeToFile(directory!+"paczka.srt", atomically: true)
     }
     
     func numberOfRowsInTableView(aTableView: NSTableView) -> Int {

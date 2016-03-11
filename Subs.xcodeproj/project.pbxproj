@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C9527C541C92FF1C0075940E /* NSData+GZIP.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9527C531C92FF1C0075940E /* NSData+GZIP.swift */; };
+		C9527C561C93015C0075940E /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C9527C551C93015C0075940E /* libz.tbd */; };
 		C97097981C8CE16F00EF6F81 /* TableControler.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97097971C8CE16F00EF6F81 /* TableControler.swift */; };
 		C970979A1C8F5ED100EF6F81 /* Misc.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97097991C8F5ED100EF6F81 /* Misc.swift */; };
 		C971636F1C8C2DC400422531 /* OSHashAlgorithm.swift in Sources */ = {isa = PBXBuildFile; fileRef = C971636E1C8C2DC400422531 /* OSHashAlgorithm.swift */; };
@@ -41,6 +43,8 @@
 /* Begin PBXFileReference section */
 		1EBD4391AE9013D53BA5D4FF /* Pods_Subs.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Subs.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		410335FE849ABBA0B3B82284 /* Pods-Subs.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Subs.release.xcconfig"; path = "Pods/Target Support Files/Pods-Subs/Pods-Subs.release.xcconfig"; sourceTree = "<group>"; };
+		C9527C531C92FF1C0075940E /* NSData+GZIP.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSData+GZIP.swift"; sourceTree = "<group>"; };
+		C9527C551C93015C0075940E /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		C97097971C8CE16F00EF6F81 /* TableControler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableControler.swift; sourceTree = "<group>"; };
 		C97097991C8F5ED100EF6F81 /* Misc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Misc.swift; sourceTree = "<group>"; };
 		C971636E1C8C2DC400422531 /* OSHashAlgorithm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OSHashAlgorithm.swift; sourceTree = "<group>"; };
@@ -66,6 +70,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C9527C561C93015C0075940E /* libz.tbd in Frameworks */,
 				E8D26A6258E1BE02E56E9B50 /* Pods_Subs.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -99,6 +104,7 @@
 		A81F377E934FBABC6D49D484 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C9527C551C93015C0075940E /* libz.tbd */,
 				1EBD4391AE9013D53BA5D4FF /* Pods_Subs.framework */,
 			);
 			name = Frameworks;
@@ -139,6 +145,7 @@
 				C971636E1C8C2DC400422531 /* OSHashAlgorithm.swift */,
 				C97163701C8C39F400422531 /* Subtitle.swift */,
 				C97097991C8F5ED100EF6F81 /* Misc.swift */,
+				C9527C531C92FF1C0075940E /* NSData+GZIP.swift */,
 			);
 			path = Subs;
 			sourceTree = "<group>";
@@ -346,6 +353,7 @@
 				C971636F1C8C2DC400422531 /* OSHashAlgorithm.swift in Sources */,
 				C9EAE82F1C8B155300955EB2 /* RootViewControler.swift in Sources */,
 				C97097981C8CE16F00EF6F81 /* TableControler.swift in Sources */,
+				C9527C541C92FF1C0075940E /* NSData+GZIP.swift in Sources */,
 				C970979A1C8F5ED100EF6F81 /* Misc.swift in Sources */,
 				C9EAE8311C8B8BB700955EB2 /* OpenSubtitles.swift in Sources */,
 				C97163711C8C39F400422531 /* Subtitle.swift in Sources */,
@@ -485,6 +493,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = BigBadCompany.Subs;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				"SWIFT_INCLUDE_PATHS[arch=*]" = "/Users/bartosh/Projekty/Apple/Subs/Subs/zlib\n";
 			};
 			name = Debug;
 		};
