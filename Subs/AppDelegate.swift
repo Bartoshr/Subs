@@ -38,6 +38,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             
             tableControler.search(filename)
             tableControler.directory = directory.description+"/"
+            
+            window.makeKeyAndOrderFront(self)
         }
         
     }

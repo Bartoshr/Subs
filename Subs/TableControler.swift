@@ -97,6 +97,8 @@ class TableControler: NSViewController, NSTableViewDataSource, NSTableViewDelega
             let indexes = myTableViewFromNotification.selectedRowIndexes
             let index = indexes.firstIndex
             download(subtitles[index].idSubtitleFile)
+            NSApplication.sharedApplication().keyWindow?.orderOut(self)
+            NSApplication.sharedApplication().hide(self)
         }
         
     }
