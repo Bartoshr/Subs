@@ -22,8 +22,6 @@ class OpenSubtitles {
         self.userAgent = userAgent
     }
     
-    
-    
     func getServerInfo(callback: (String)->Void){
         execMethod("ServerInfo", params: []) { response in
             if let data = response, info = data[0]["website_url"].string {

@@ -62,6 +62,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         print(token)
     }
     
+    func logedOut(status: String){
+        print(status)
+    }
+    
     func searchComlpeted(data: [Subtitle])->Void {
         
         if data.count == 0 {
@@ -88,6 +92,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     func applicationWillTerminate(aNotification: NSNotification) {
         // Insert code here to tear down your application
+        openSubtitles.logOut(token, callback: logedOut)
     }
     
     func application(sender: NSApplication, printFile filename: String) -> Bool {
