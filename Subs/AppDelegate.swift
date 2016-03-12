@@ -24,6 +24,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     var token : String = ""
     var subtitles : [Subtitle] = []
+    var saveDirectory: String?
     
     let emptySound = NSSound(named: "Hero")
     
@@ -47,8 +48,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             callback:searchComlpeted)
     }
     
-    func download(id: String){
-        let props = [id] as XMLRPCArray
+    func download(subtitle: Subtitle){
+        let props = [subtitle.idSubtitleFile] as XMLRPCArray
         openSubtitles.downloadSubtitles(token,
             ids: props,
             callback: downloadCompleted)
@@ -76,9 +77,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     
     func downloadCompleted(data: [String])->Void {
+        
         let decodedData = NSData(base64EncodedString: data[0], options:NSDataBase64DecodingOptions(rawValue: 0))
         let decompressedData : NSData = try! decodedData!.gunzippedData()
-        decompressedData.writeToFile(tableControler.directory!+"paczka.srt", atomically: true)
+        decompressedData.writeToFile(saveDirectory!+"paczka.srt", atomically: true)
+        
     }
     
     // Application Handlers
@@ -95,10 +98,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func application(sender: NSApplication, openFiles filenames: [String]) {
         
         for filename in filenames {
+            
             let directory = Path(filename).parent()
             print(directory.description)
             search(filename)
-            tableControler.directory = directory.description+"/"
+            
+            saveDirectory = directory.description+"/"
+            
         }
         
     }

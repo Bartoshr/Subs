@@ -16,9 +16,8 @@ class TableControler: NSViewController, NSTableViewDataSource, NSTableViewDelega
     @IBOutlet weak var tableView: NSTableView!
     
     var subtitles : [Subtitle] = []
-    var directory: String?
     
-    var rowSelectedMethod : ((String)->Void)?
+    var rowSelectedMethod : ((Subtitle)->Void)?
     
     func numberOfRowsInTableView(aTableView: NSTableView) -> Int {
         return subtitles.count
@@ -46,7 +45,7 @@ class TableControler: NSViewController, NSTableViewDataSource, NSTableViewDelega
             let indexes = myTableViewFromNotification.selectedRowIndexes
             let index = indexes.firstIndex
             
-            rowSelectedMethod!(subtitles[index].idSubtitleFile)
+            rowSelectedMethod!(subtitles[index])
             
             NSApplication.sharedApplication().keyWindow?.orderOut(self)
             NSApplication.sharedApplication().hide(self)
