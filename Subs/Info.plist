@@ -49,7 +49,7 @@
 			<key>NSMenuItem</key>
 			<dict>
 				<key>default</key>
-				<string>Download Subtitles</string>
+				<string>Szukaj napisów</string>
 			</dict>
 			<key>NSMessage</key>
 			<string>handleServices</string>

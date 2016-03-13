@@ -19,8 +19,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     let userAgent =  "OSTestUserAgent";
     let host = "https://api.opensubtitles.org:443/xml-rpc"
     
-    var openSubtitles : OpenSubtitles
-    var searchService: SearchService
+    var openSubtitles : OpenSubtitles?
+    var searchService: SearchService?
     
     
     var token : String = ""
@@ -29,31 +29,37 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     let emptySound = NSSound(named: "Hero")
     
-
-    override init() {
-        openSubtitles = OpenSubtitles(host: host, userAgent: userAgent)
-        searchService = SearchService()
-    }
-
+    
     func applicationDidFinishLaunching(aNotification: NSNotification) {
-        // Insert code here to initialize your application
-        openSubtitles.logIn(logedIn);
+        openSubtitles = OpenSubtitles(host: host, userAgent: userAgent)
+        searchService = SearchService(serviceMethod: procesFiles)
+        
+        openSubtitles!.logIn(logedIn);
         tableControler.rowSelectedMethod = download
     }
     
     // Actions
     
     func search(path: String){
-        openSubtitles.searchSubtitles(self.token,
+        openSubtitles!.searchSubtitles(self.token,
             path: path,
             properties: nil,
             callback:searchComlpeted)
     }
     
     func download(subtitle: Subtitle){
-        openSubtitles.downloadSubtitles(token,
+        openSubtitles!.downloadSubtitles(token,
             subtitle: subtitle,
             callback: downloadCompleted)
+    }
+    
+    func procesFiles(filenames: [String]){
+        for filename in filenames {
+            let directory = Path(filename).parent()
+            print(directory.description)
+            search(filename)
+            saveDirectory = directory.description+"/"
+        }
     }
     
     // Callbacks
@@ -92,8 +98,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     // Application Handlers
 
     func applicationWillTerminate(aNotification: NSNotification) {
-        // Insert code here to tear down your application
-        openSubtitles.logOut(token, callback: logedOut)
+        openSubtitles!.logOut(token, callback: logedOut)
     }
     
     func application(sender: NSApplication, printFile filename: String) -> Bool {
@@ -102,17 +107,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     func application(sender: NSApplication, openFiles filenames: [String]) {
-        
-        for filename in filenames {
-            
-            let directory = Path(filename).parent()
-            print(directory.description)
-            search(filename)
-            
-            saveDirectory = directory.description+"/"
-            
-        }
-        
+        procesFiles(filenames)
     }
     
 
