@@ -80,7 +80,8 @@ class OpenSubtitles {
         }
     }
     
-    func downloadSubtitles(token : String, ids: XMLRPCArray,  callback: ([String])->Void){
+    func downloadSubtitles(token : String, subtitle: Subtitle,  callback: ([String],String)->Void){
+        let ids: [Any] = [subtitle.idSubtitleFile]
         execMethod("DownloadSubtitles", params: [token, ids]) { response in
             if let data = response, table = data[0]["data"].array {
                 
@@ -91,7 +92,7 @@ class OpenSubtitles {
                     result.append(data!)
                 }
                 
-                callback(result)
+                callback(result, subtitle.subFileName)
             }
         }
     }

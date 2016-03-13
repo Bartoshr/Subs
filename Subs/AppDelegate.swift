@@ -9,7 +9,6 @@
 import Cocoa
 import PathKit
 import Alamofire
-import AlamofireXMLRPC
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
@@ -21,6 +20,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     let host = "https://api.opensubtitles.org:443/xml-rpc"
     
     var openSubtitles : OpenSubtitles
+    var searchService: SearchService
+    
     
     var token : String = ""
     var subtitles : [Subtitle] = []
@@ -31,6 +32,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     override init() {
         openSubtitles = OpenSubtitles(host: host, userAgent: userAgent)
+        searchService = SearchService()
     }
 
     func applicationDidFinishLaunching(aNotification: NSNotification) {
@@ -49,9 +51,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     func download(subtitle: Subtitle){
-        let props = [subtitle.idSubtitleFile] as XMLRPCArray
         openSubtitles.downloadSubtitles(token,
-            ids: props,
+            subtitle: subtitle,
             callback: downloadCompleted)
     }
     
@@ -80,11 +81,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     
-    func downloadCompleted(data: [String])->Void {
+    func downloadCompleted(data: [String], filename: String)->Void {
         
         let decodedData = NSData(base64EncodedString: data[0], options:NSDataBase64DecodingOptions(rawValue: 0))
         let decompressedData : NSData = try! decodedData!.gunzippedData()
-        decompressedData.writeToFile(saveDirectory!+"paczka.srt", atomically: true)
+        decompressedData.writeToFile(saveDirectory!+filename, atomically: true)
         
     }
     
