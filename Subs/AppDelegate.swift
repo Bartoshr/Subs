@@ -23,37 +23,48 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var searchService: SearchService?
     
     
-    var token : String = ""
+    var token : String? = nil
     var subtitles : [Subtitle] = []
     var saveDirectory: String?
     
     let emptySound = NSSound(named: "Hero")
     
-    
     func applicationDidFinishLaunching(aNotification: NSNotification) {
-        openSubtitles = OpenSubtitles(host: host, userAgent: userAgent)
-        searchService = SearchService(serviceMethod: procesFiles)
         
+        openSubtitles = OpenSubtitles(host: host, userAgent: userAgent)
         openSubtitles!.logIn(logedIn);
         tableControler.rowSelectedMethod = download
+        
+        searchService = SearchService()
+        searchService?.method = procesFiles
+        NSApp.servicesProvider = searchService
+        NSUpdateDynamicServices()
     }
     
     // Actions
     
     func search(path: String){
-        openSubtitles!.searchSubtitles(self.token,
+        openSubtitles!.searchSubtitles(self.token!,
             path: path,
             properties: nil,
             callback:searchComlpeted)
     }
     
     func download(subtitle: Subtitle){
-        openSubtitles!.downloadSubtitles(token,
+        openSubtitles!.downloadSubtitles(token!,
             subtitle: subtitle,
             callback: downloadCompleted)
     }
     
     func procesFiles(filenames: [String]){
+        
+        if(token == nil) {
+            usleep(2000);
+//            let alarm = NSAlert()
+//            alarm.messageText = "Experimental"
+//            alarm.runModal()
+        }
+        
         for filename in filenames {
             let directory = Path(filename).parent()
             print(directory.description)
@@ -98,7 +109,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     // Application Handlers
 
     func applicationWillTerminate(aNotification: NSNotification) {
-        openSubtitles!.logOut(token, callback: logedOut)
+        openSubtitles!.logOut(token!, callback: logedOut)
     }
     
     func application(sender: NSApplication, printFile filename: String) -> Bool {

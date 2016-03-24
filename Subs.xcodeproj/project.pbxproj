@@ -13,12 +13,13 @@
 		C970979A1C8F5ED100EF6F81 /* Base64.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97097991C8F5ED100EF6F81 /* Base64.swift */; };
 		C971636F1C8C2DC400422531 /* OSHashAlgorithm.swift in Sources */ = {isa = PBXBuildFile; fileRef = C971636E1C8C2DC400422531 /* OSHashAlgorithm.swift */; };
 		C97163711C8C39F400422531 /* Subtitle.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97163701C8C39F400422531 /* Subtitle.swift */; };
+		C978E4A61C9AF2E300CBF791 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C978E4A51C9AF2E300CBF791 /* Images.xcassets */; };
 		C98D32011C8B1126007BE125 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98D32001C8B1126007BE125 /* AppDelegate.swift */; };
-		C98D32031C8B1126007BE125 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C98D32021C8B1126007BE125 /* Assets.xcassets */; };
 		C98D32061C8B1126007BE125 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = C98D32041C8B1126007BE125 /* MainMenu.xib */; };
 		C98D32111C8B1126007BE125 /* SubsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98D32101C8B1126007BE125 /* SubsTests.swift */; };
 		C98D321C1C8B1126007BE125 /* SubsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98D321B1C8B1126007BE125 /* SubsUITests.swift */; };
 		C9B8640C1C957B12003B3B3F /* SearchService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B8640B1C957B12003B3B3F /* SearchService.swift */; };
+		C9C3F0591C9C7DA70002A1D3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C98D32021C8B1126007BE125 /* Assets.xcassets */; };
 		C9EAE82F1C8B155300955EB2 /* RootViewControler.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EAE82E1C8B155300955EB2 /* RootViewControler.swift */; };
 		C9EAE8311C8B8BB700955EB2 /* OpenSubtitles.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EAE8301C8B8BB700955EB2 /* OpenSubtitles.swift */; };
 		E8D26A6258E1BE02E56E9B50 /* Pods_Subs.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1EBD4391AE9013D53BA5D4FF /* Pods_Subs.framework */; };
@@ -50,6 +51,7 @@
 		C97097991C8F5ED100EF6F81 /* Base64.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Base64.swift; sourceTree = "<group>"; };
 		C971636E1C8C2DC400422531 /* OSHashAlgorithm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OSHashAlgorithm.swift; sourceTree = "<group>"; };
 		C97163701C8C39F400422531 /* Subtitle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Subtitle.swift; sourceTree = "<group>"; };
+		C978E4A51C9AF2E300CBF791 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		C98D31FD1C8B1126007BE125 /* Subs.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Subs.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C98D32001C8B1126007BE125 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C98D32021C8B1126007BE125 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -149,6 +151,7 @@
 				C97097991C8F5ED100EF6F81 /* Base64.swift */,
 				C9527C531C92FF1C0075940E /* NSData+GZIP.swift */,
 				C9B8640B1C957B12003B3B3F /* SearchService.swift */,
+				C978E4A51C9AF2E300CBF791 /* Images.xcassets */,
 			);
 			path = Subs;
 			sourceTree = "<group>";
@@ -278,7 +281,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C98D32031C8B1126007BE125 /* Assets.xcassets in Resources */,
+				C978E4A61C9AF2E300CBF791 /* Images.xcassets in Resources */,
+				C9C3F0591C9C7DA70002A1D3 /* Assets.xcassets in Resources */,
 				C98D32061C8B1126007BE125 /* MainMenu.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -495,9 +499,9 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = Subs/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = BigBadCompany.Subs;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bartoshr.Subs;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				"SWIFT_INCLUDE_PATHS[arch=*]" = "/Users/bartosh/Projekty/Apple/Subs/Subs/zlib\n";
+				"SWIFT_INCLUDE_PATHS[arch=*]" = /Users/bartosh/Projekty/Apple/Subs/Subs/zlib;
 			};
 			name = Debug;
 		};
@@ -507,10 +511,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COMBINE_HIDPI_IMAGES = YES;
+				ENABLE_TESTABILITY = NO;
 				INFOPLIST_FILE = Subs/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = BigBadCompany.Subs;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bartoshr.Subs;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				"SWIFT_INCLUDE_PATHS[arch=*]" = /Users/bartosh/Projekty/Apple/Subs/Subs/zlib;
 			};
 			name = Release;
 		};

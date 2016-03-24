@@ -11,24 +11,20 @@ import Cocoa
 
 public class SearchService {
     
-    var serviceMethod : (([String])->Void)?
+    var method : (([String])->Void)?
     
     @objc public func handleServices(pboard: NSPasteboard!,
         userData: String!, error: AutoreleasingUnsafeMutablePointer<NSString?>) {
             
+            let sound = NSSound(named: "hero")
+            sound?.play()
+            
             if (pboard.types?.contains(NSFilenamesPboardType) != nil) {
                 if let fileArray = pboard.propertyListForType(NSFilenamesPboardType) as? [String] {
-                    serviceMethod!(fileArray)
+                    method!(fileArray)
                 }
             }
             
     }
-    
-    init(serviceMethod : (([String])->Void)?){
-        self.serviceMethod = serviceMethod
-        NSApp.servicesProvider = self
-        NSUpdateDynamicServices()
-    }
-
     
 }
