@@ -14,10 +14,10 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = 'C2A6F1B8B23D45AF3D27AA45'
-               BlueprintName = 'AEXML'
+               BlueprintIdentifier = '12BB0B18C4A9EF86EB535FB4'
+               BlueprintName = 'SwiftyTimer'
                ReferencedContainer = 'container:Pods.xcodeproj'
-               BuildableName = 'AEXML.framework'>
+               BuildableName = 'SwiftyTimer.framework'>
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>

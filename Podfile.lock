@@ -5,10 +5,12 @@ PODS:
     - AEXML
     - Alamofire
   - PathKit (0.6.0)
+  - SwiftyTimer (1.3.1)
 
 DEPENDENCIES:
   - AlamofireXMLRPC (from `https://github.com/kodlian/AlamofireXMLRPC.git`)
   - PathKit
+  - SwiftyTimer
 
 EXTERNAL SOURCES:
   AlamofireXMLRPC:
@@ -24,5 +26,6 @@ SPEC CHECKSUMS:
   Alamofire: f11d8624a05f5d39e0c99309b3e600a3ba64298a
   AlamofireXMLRPC: e07967849f7a43cd60eee336c29afcbe7ca277a9
   PathKit: b224b6d2c4e75b87f08f45e1c0c610a3195c94e5
+  SwiftyTimer: 50ad01c66721479709b41042e422ee852c185b13
 
 COCOAPODS: 0.39.0

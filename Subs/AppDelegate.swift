@@ -9,6 +9,7 @@
 import Cocoa
 import PathKit
 import Alamofire
+import SwiftyTimer
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
@@ -22,21 +23,23 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var openSubtitles : OpenSubtitles?
     var searchService: SearchService?
     
-    
     var token : String? = nil
     var subtitles : [Subtitle] = []
     var saveDirectory: String?
     
     let emptySound = NSSound(named: "Hero")
     
-    func applicationDidFinishLaunching(aNotification: NSNotification) {
-        
+    override init(){
+        super.init()
         openSubtitles = OpenSubtitles(host: host, userAgent: userAgent)
         openSubtitles!.logIn(logedIn);
+    }
+    
+    func applicationDidFinishLaunching(aNotification: NSNotification) {
         tableControler.rowSelectedMethod = download
         
         searchService = SearchService()
-        searchService?.method = procesFiles
+        searchService?.method = serviceLaunched
         NSApp.servicesProvider = searchService
         NSUpdateDynamicServices()
     }
@@ -56,15 +59,17 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             callback: downloadCompleted)
     }
     
-    func procesFiles(filenames: [String]){
-        
-        if(token == nil) {
-            usleep(2000);
-//            let alarm = NSAlert()
-//            alarm.messageText = "Experimental"
-//            alarm.runModal()
+    func serviceLaunched(filenames: [String]){
+        if(token != nil) {
+            procesFiles(filenames)
+        } else {
+            NSTimer.after(2300.milliseconds) {
+                self.procesFiles(filenames)
+            }
         }
-        
+    }
+    
+    func procesFiles(filenames: [String]){
         for filename in filenames {
             let directory = Path(filename).parent()
             print(directory.description)

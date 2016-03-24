@@ -29,10 +29,15 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>SwiftyTimer.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>4A306ED20D808F2D563F601AA755D07B</key>
+		<key>29F1A1BA8D9E410E80658FC9F173FF8A</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -48,6 +53,11 @@
 			<true/>
 		</dict>
 		<key>8A134B7B7409B0182BC2AF3675766C58</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>B63EE5BE7EBE627FA280192E16694A51</key>
 		<dict>
 			<key>primary</key>
 			<true/>

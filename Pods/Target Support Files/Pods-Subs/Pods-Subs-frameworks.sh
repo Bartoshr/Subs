@@ -88,10 +88,12 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "Pods-Subs/Alamofire.framework"
   install_framework "Pods-Subs/AlamofireXMLRPC.framework"
   install_framework "Pods-Subs/PathKit.framework"
+  install_framework "Pods-Subs/SwiftyTimer.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "Pods-Subs/AEXML.framework"
   install_framework "Pods-Subs/Alamofire.framework"
   install_framework "Pods-Subs/AlamofireXMLRPC.framework"
   install_framework "Pods-Subs/PathKit.framework"
+  install_framework "Pods-Subs/SwiftyTimer.framework"
 fi
