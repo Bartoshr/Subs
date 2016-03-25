@@ -47,9 +47,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     // Actions
     
-    func search(path: String){
+    func search(paths: [String]){
         openSubtitles.searchSubtitles(self.token!,
-            paths: [path],
+            paths: paths,
             properties: nil,
             callback:searchComlpeted)
     }
@@ -60,6 +60,16 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             callback: downloadCompleted)
     }
     
+    
+    func procesFiles(filenames: [String]){
+        let directory = Path(filenames[0]).parent()
+        saveDirectory = directory.description+"/"
+        print(directory.description)
+        search(filenames)
+    }
+    
+    // Callbacks
+    
     func serviceLaunched(filenames: [String]){
         if(token == nil) {
             self.filenames = filenames
@@ -68,17 +78,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             procesFiles(filenames)
         }
     }
-    
-    func procesFiles(filenames: [String]){
-        for filename in filenames {
-            let directory = Path(filename).parent()
-            print(directory.description)
-            search(filename)
-            saveDirectory = directory.description+"/"
-        }
-    }
-    
-    // Callbacks
     
     func logedIn(token: String){
         self.token = token
@@ -116,11 +115,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     func applicationWillTerminate(aNotification: NSNotification) {
         openSubtitles.logOut(token!, callback: logedOut)
-    }
-    
-    func application(sender: NSApplication, printFile filename: String) -> Bool {
-        print("file \(filename)")
-        return true
     }
     
     func application(sender: NSApplication, openFiles filenames: [String]) {
