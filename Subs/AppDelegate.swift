@@ -20,8 +20,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     let userAgent =  "OSTestUserAgent";
     let host = "https://api.opensubtitles.org:443/xml-rpc"
     
-    var openSubtitles : OpenSubtitles?
-    var searchService: SearchService?
+    var openSubtitles : OpenSubtitles
+    var searchService: SearchService
     
     var token : String? = nil
     var subtitles : [Subtitle] = []
@@ -30,16 +30,15 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     let emptySound = NSSound(named: "Hero")
     
     override init(){
-        super.init()
         openSubtitles = OpenSubtitles(host: host, userAgent: userAgent)
-        openSubtitles!.logIn(logedIn);
+        searchService = SearchService()
+        super.init()
+        openSubtitles.logIn(logedIn)
+        searchService.method = serviceLaunched
     }
     
     func applicationDidFinishLaunching(aNotification: NSNotification) {
         tableControler.rowSelectedMethod = download
-        
-        searchService = SearchService()
-        searchService?.method = serviceLaunched
         NSApp.servicesProvider = searchService
         NSUpdateDynamicServices()
     }
@@ -47,14 +46,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     // Actions
     
     func search(path: String){
-        openSubtitles!.searchSubtitles(self.token!,
+        openSubtitles.searchSubtitles(self.token!,
             path: path,
             properties: nil,
             callback:searchComlpeted)
     }
     
     func download(subtitle: Subtitle){
-        openSubtitles!.downloadSubtitles(token!,
+        openSubtitles.downloadSubtitles(token!,
             subtitle: subtitle,
             callback: downloadCompleted)
     }
@@ -114,7 +113,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     // Application Handlers
 
     func applicationWillTerminate(aNotification: NSNotification) {
-        openSubtitles!.logOut(token!, callback: logedOut)
+        openSubtitles.logOut(token!, callback: logedOut)
     }
     
     func application(sender: NSApplication, printFile filename: String) -> Bool {
