@@ -9,7 +9,6 @@
 import Cocoa
 import PathKit
 import Alamofire
-import SwiftyTimer
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
@@ -28,6 +27,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var saveDirectory: String?
     
     let emptySound = NSSound(named: "Hero")
+    
+    var searchOnStartup = false;
+    var filenames: [String]? = nil;
     
     override init(){
         openSubtitles = OpenSubtitles(host: host, userAgent: userAgent)
@@ -59,12 +61,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     func serviceLaunched(filenames: [String]){
-        if(token != nil) {
-            procesFiles(filenames)
+        if(token == nil) {
+            self.filenames = filenames
+            searchOnStartup = true
         } else {
-            NSTimer.after(2300.milliseconds) {
-                self.procesFiles(filenames)
-            }
+            procesFiles(filenames)
         }
     }
     
@@ -82,6 +83,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func logedIn(token: String){
         self.token = token
         print(token)
+        
+        if(searchOnStartup == true) {
+            procesFiles(filenames!)
+            searchOnStartup = false
+        }
     }
     
     func logedOut(status: String){
@@ -89,7 +95,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     func searchComlpeted(data: [Subtitle])->Void {
-        
         if data.count == 0 {
             emptySound?.play()
             return
@@ -98,16 +103,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         window.makeKeyAndOrderFront(self)
         tableControler.subtitles = data
         tableControler.tableView.reloadData()
-        
     }
     
     
     func downloadCompleted(data: [String], filename: String)->Void {
-        
         let decodedData = NSData(base64EncodedString: data[0], options:NSDataBase64DecodingOptions(rawValue: 0))
         let decompressedData : NSData = try! decodedData!.gunzippedData()
         decompressedData.writeToFile(saveDirectory!+filename, atomically: true)
-        
     }
     
     // Application Handlers
