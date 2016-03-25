@@ -49,7 +49,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     func search(path: String){
         openSubtitles.searchSubtitles(self.token!,
-            path: path,
+            paths: [path],
             properties: nil,
             callback:searchComlpeted)
     }
