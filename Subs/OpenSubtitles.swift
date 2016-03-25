@@ -49,15 +49,12 @@ class OpenSubtitles {
     
     func searchSubtitles(token : String, paths: [String], properties: XMLRPCStructure?,  callback: ([Subtitle])->Void){
         
-        
-       let hashes = paths.map{ (path) -> String in
+        let table : XMLRPCArray = paths.map{ (path) -> XMLRPCStructure in
             let osha = OSHashAlgorithm()
-            return osha.hashForPath(path).fileHash
+            let hash = osha.hashForPath(path).fileHash
+            return ["moviehash":hash,"sublanguageid":"eng"] as XMLRPCStructure
         }
         
-        let props = ["moviehash":hashes[0],"sublanguageid":"eng"] as XMLRPCStructure
-        
-        let table = [props] as XMLRPCArray
         let limit = ["limit":100] as XMLRPCStructure
         execMethod("SearchSubtitles", params: [token, table, limit]) { response in
             if let data = response, table = data[0]["data"].array {
