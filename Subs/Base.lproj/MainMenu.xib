@@ -684,13 +684,13 @@
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" alternatingRowBackgroundColors="YES" columnReordering="NO" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" viewBased="YES" id="TAn-9L-eUA">
-                                    <rect key="frame" x="0.0" y="0.0" width="486" height="256"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="486" height="0.0"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <size key="intercellSpacing" width="3" height="2"/>
                                     <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                     <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                     <tableColumns>
-                                        <tableColumn identifier="SubsColumn" width="483" minWidth="40" maxWidth="1000" id="cAQ-Hf-5p8">
+                                        <tableColumn identifier="Subtitle" width="483" minWidth="40" maxWidth="1000" id="cAQ-Hf-5p8" userLabel="Subittle">
                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border">
                                                 <font key="font" metaFont="smallSystem"/>
                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -703,27 +703,26 @@
                                             </textFieldCell>
                                             <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                             <prototypeCellViews>
-                                                <tableCellView id="d4c-sm-s2m">
+                                                <tableCellView id="Sgi-DK-FHt">
                                                     <rect key="frame" x="1" y="1" width="483" height="17"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
-                                                        <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xgd-E4-aiR">
-                                                            <rect key="frame" x="0.0" y="0.0" width="440" height="17"/>
-                                                            <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" alignment="left" title="Table View Cell" id="YJw-UN-oF5">
+                                                        <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="sFd-44-9qP">
+                                                            <rect key="frame" x="3" y="0.0" width="17" height="17"/>
+                                                            <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="NSStatusAvailable" id="QNY-QX-zat"/>
+                                                        </imageView>
+                                                        <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" allowsExpansionToolTips="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ySb-ZE-zhF">
+                                                            <rect key="frame" x="25" y="0.0" width="457" height="17"/>
+                                                            <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="Z2k-MH-u2Z">
                                                                 <font key="font" metaFont="system"/>
                                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                             </textFieldCell>
                                                         </textField>
                                                     </subviews>
-                                                    <constraints>
-                                                        <constraint firstItem="xgd-E4-aiR" firstAttribute="top" secondItem="d4c-sm-s2m" secondAttribute="top" id="1TZ-hY-sON"/>
-                                                        <constraint firstAttribute="trailing" secondItem="xgd-E4-aiR" secondAttribute="trailing" constant="5" id="Pob-hX-GQg"/>
-                                                        <constraint firstItem="xgd-E4-aiR" firstAttribute="leading" secondItem="d4c-sm-s2m" secondAttribute="leading" constant="2" id="hvU-9X-ea6"/>
-                                                        <constraint firstAttribute="bottom" secondItem="xgd-E4-aiR" secondAttribute="bottom" id="wKA-cR-ZnB"/>
-                                                    </constraints>
                                                     <connections>
-                                                        <outlet property="textField" destination="xgd-E4-aiR" id="1eu-cg-60v"/>
+                                                        <outlet property="imageView" destination="sFd-44-9qP" id="HSP-p9-ssC"/>
+                                                        <outlet property="textField" destination="ySb-ZE-zhF" id="rut-Ss-afa"/>
                                                     </connections>
                                                 </tableCellView>
                                             </prototypeCellViews>
@@ -768,4 +767,7 @@
             </connections>
         </viewController>
     </objects>
+    <resources>
+        <image name="NSStatusAvailable" width="16" height="16"/>
+    </resources>
 </document>

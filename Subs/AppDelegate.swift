@@ -24,7 +24,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     var token : String? = nil
     var subtitles : [Subtitle] = []
+    
     var saveDirectory: String?
+    var filename: String?
     
     let emptySound = NSSound(named: "Hero")
     
@@ -63,6 +65,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     func procesFiles(filenames: [String]){
         let directory = Path(filenames[0]).parent()
+        filename = Path(filenames[0]).lastComponent
+        
         saveDirectory = directory.description+"/"
         print(directory.description)
         search(filenames)
@@ -99,6 +103,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             return
         }
         
+        window.title = filename!
         window.makeKeyAndOrderFront(self)
         tableControler.subtitles = data
         tableControler.tableView.reloadData()

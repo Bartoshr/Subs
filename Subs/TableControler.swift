@@ -28,7 +28,7 @@ class TableControler: NSViewController, NSTableViewDataSource, NSTableViewDelega
         
         let cellView: NSTableCellView = tableView.makeViewWithIdentifier(tableColumn!.identifier, owner: self) as! NSTableCellView
         
-        if tableColumn!.identifier == "SubsColumn" {
+        if tableColumn!.identifier == "Subtitle" {
             cellView.textField!.stringValue = subtitles[row].subFileName
             return cellView
         }

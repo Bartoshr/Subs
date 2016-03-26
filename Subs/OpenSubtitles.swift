@@ -102,7 +102,9 @@ class OpenSubtitles {
     func execMethod(methodName: String, params: [Any], callback : (XMLRPCNode?)->Void){
         AlamofireXMLRPC.request(host, methodName: methodName, parameters: params).responseXMLRPC { (response:Response<XMLRPCNode, NSError>) -> Void in
             guard response.result.isSuccess else {
-                print("Failure for \(methodName)")
+                let alert = NSAlert()
+                alert.messageText = "Failure for \(methodName) \n \(response.description)"
+                alert.runModal()
                 return
             }
             if let value = response.result.value {
