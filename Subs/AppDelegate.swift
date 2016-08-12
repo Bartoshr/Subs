@@ -114,6 +114,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         let decodedData = NSData(base64EncodedString: data[0], options:NSDataBase64DecodingOptions(rawValue: 0))
         let decompressedData : NSData = try! decodedData!.gunzippedData()
         decompressedData.writeToFile(saveDirectory!+filename, atomically: true)
+        
+
+        NSApp.terminate(self)
     }
     
     // Application Handlers
@@ -124,6 +127,18 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     func application(sender: NSApplication, openFiles filenames: [String]) {
         procesFiles(filenames)
+    }
+    
+    func goToPreferences()->Void {
+        print("OK Works")
+    }
+    
+    func applicationDockMenu(sender: NSApplication) -> NSMenu? {
+        let newMenu = NSMenu(title: "Menu")
+        let newMenuItem = NSMenuItem(title: "Preferences", action: #selector(AppDelegate.goToPreferences), keyEquivalent: "")
+        newMenuItem.tag = 1
+        newMenu.addItem(newMenuItem)
+        return newMenu
     }
     
 
