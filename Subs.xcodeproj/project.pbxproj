@@ -245,13 +245,16 @@
 				TargetAttributes = {
 					C98D31FC1C8B1126007BE125 = {
 						CreatedOnToolsVersion = 7.2.1;
+						LastSwiftMigration = 0800;
 					};
 					C98D320B1C8B1126007BE125 = {
 						CreatedOnToolsVersion = 7.2.1;
+						LastSwiftMigration = 0800;
 						TestTargetID = C98D31FC1C8B1126007BE125;
 					};
 					C98D32161C8B1126007BE125 = {
 						CreatedOnToolsVersion = 7.2.1;
+						LastSwiftMigration = 0800;
 						TestTargetID = C98D31FC1C8B1126007BE125;
 					};
 				};
@@ -502,6 +505,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.bartoshr.Subs;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				"SWIFT_INCLUDE_PATHS[arch=*]" = /Users/bartosh/Projekty/Apple/Subs/Subs/zlib;
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -517,6 +521,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.bartoshr.Subs;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				"SWIFT_INCLUDE_PATHS[arch=*]" = /Users/bartosh/Projekty/Apple/Subs/Subs/zlib;
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
@@ -529,6 +534,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = BigBadCompany.SubsTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Subs.app/Contents/MacOS/Subs";
 			};
 			name = Debug;
@@ -542,6 +548,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = BigBadCompany.SubsTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Subs.app/Contents/MacOS/Subs";
 			};
 			name = Release;
@@ -554,6 +561,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = BigBadCompany.SubsUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_TARGET_NAME = Subs;
 				USES_XCTRUNNER = YES;
 			};
@@ -567,6 +575,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = BigBadCompany.SubsUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_TARGET_NAME = Subs;
 				USES_XCTRUNNER = YES;
 			};
