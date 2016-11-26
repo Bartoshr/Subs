@@ -16,7 +16,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     @IBOutlet weak var window: NSWindow!
     @IBOutlet weak var tableControler: TableControler!
     
-    let userAgent =  "OSTestUserAgent";
+    let userAgent =  "OSTestUserAgentTemp";
     let host = "https://api.opensubtitles.org:443/xml-rpc"
     
     var openSubtitles : OpenSubtitles
@@ -41,7 +41,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         searchService.method = serviceLaunched
     }
     
-    func applicationDidFinishLaunching(aNotification: NSNotification) {
+    func applicationDidFinishLaunching(_ aNotification: Notification) {
         tableControler.rowSelectedMethod = download
         NSApp.servicesProvider = searchService
         NSUpdateDynamicServices()
@@ -49,21 +49,21 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     // Actions
     
-    func search(paths: [String]){
+    func search(_ paths: [String]){
         openSubtitles.searchSubtitles(self.token!,
             paths: paths,
             properties: nil,
             callback:searchComlpeted)
     }
     
-    func download(subtitle: Subtitle){
+    func download(_ subtitle: Subtitle){
         openSubtitles.downloadSubtitles(token!,
             subtitle: subtitle,
             callback: downloadCompleted)
     }
     
     
-    func procesFiles(filenames: [String]){
+    func procesFiles(_ filenames: [String]){
         let directory = Path(filenames[0]).parent()
         filename = Path(filenames[0]).lastComponent
         
@@ -74,7 +74,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     // Callbacks
     
-    func serviceLaunched(filenames: [String]){
+    func serviceLaunched(_ filenames: [String]){
         if(token == nil) {
             self.filenames = filenames
             searchOnStartup = true
@@ -83,7 +83,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
     }
     
-    func logedIn(token: String){
+    func logedIn(_ token: String){
         self.token = token
         print(token)
         
@@ -93,11 +93,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
     }
     
-    func logedOut(status: String){
+    func logedOut(_ status: String){
         print(status)
     }
     
-    func searchComlpeted(data: [Subtitle])->Void {
+    func searchComlpeted(_ data: [Subtitle])->Void {
         if data.count == 0 {
             emptySound?.play()
             return
@@ -110,10 +110,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     
-    func downloadCompleted(data: [String], filename: String)->Void {
-        let decodedData = NSData(base64EncodedString: data[0], options:NSDataBase64DecodingOptions(rawValue: 0))
-        let decompressedData : NSData = try! decodedData!.gunzippedData()
-        decompressedData.writeToFile(saveDirectory!+filename, atomically: true)
+    func downloadCompleted(_ data: [String], filename: String)->Void {
+        let decodedData = Data(base64Encoded: data[0], options:NSData.Base64DecodingOptions(rawValue: 0))
+        let decompressedData : Data = try! decodedData!.gunzipped()
+        try? decompressedData.write(to: URL(fileURLWithPath: saveDirectory!+filename), options: [.atomic])
         
 
         NSApp.terminate(self)
@@ -121,11 +121,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     // Application Handlers
 
-    func applicationWillTerminate(aNotification: NSNotification) {
+    func applicationWillTerminate(_ aNotification: Notification) {
         openSubtitles.logOut(token!, callback: logedOut)
     }
     
-    func application(sender: NSApplication, openFiles filenames: [String]) {
+    func application(_ sender: NSApplication, openFiles filenames: [String]) {
         procesFiles(filenames)
     }
     
@@ -133,7 +133,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         print("OK Works")
     }
     
-    func applicationDockMenu(sender: NSApplication) -> NSMenu? {
+    func applicationDockMenu(_ sender: NSApplication) -> NSMenu? {
         let newMenu = NSMenu(title: "Menu")
         let newMenuItem = NSMenuItem(title: "Preferences", action: #selector(AppDelegate.goToPreferences), keyEquivalent: "")
         newMenuItem.tag = 1

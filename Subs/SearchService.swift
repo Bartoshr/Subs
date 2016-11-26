@@ -9,18 +9,18 @@
 import Foundation
 import Cocoa
 
-public class SearchService {
+open class SearchService {
     
     var method : (([String])->Void)?
     
-    @objc public func handleServices(pboard: NSPasteboard!,
+    @objc open func handleServices(_ pboard: NSPasteboard!,
         userData: String!, error: AutoreleasingUnsafeMutablePointer<NSString?>) {
             
             let sound = NSSound(named: "hero")
             sound?.play()
             
             if (pboard.types?.contains(NSFilenamesPboardType) != nil) {
-                if let fileArray = pboard.propertyListForType(NSFilenamesPboardType) as? [String] {
+                if let fileArray = pboard.propertyList(forType: NSFilenamesPboardType) as? [String] {
                     method!(fileArray)
                 }
             }

@@ -4,7 +4,7 @@
 [![CI Status](https://api.travis-ci.org/radex/SwiftyTimer.svg?branch=master)](https://travis-ci.org/radex/SwiftyTimer)
 [![CocoaPods](http://img.shields.io/cocoapods/v/SwiftyTimer.svg)](https://cocoapods.org/pods/SwiftyTimer)
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](#carthage)
-![Swift version](https://img.shields.io/badge/swift-2.1-orange.svg)
+![Swift version](https://img.shields.io/badge/swift-3.0-orange.svg)
 
 #### Modern Swifty API for `NSTimer`
 ###### SwiftyTimer allows you to instantly schedule delays and repeating timers using convenient closure syntax. It's time to get rid of Objective-C cruft.
@@ -13,24 +13,22 @@ Read [Swifty APIs: NSTimer](http://radex.io/swift/nstimer/) for more information
 
 ## Usage
 
-You can easily schedule repeating and non-repeating timers (repeats and delays) using `NSTimer.every` and `NSTimer.after`:
+You can easily schedule repeating and non-repeating timers (repeats and delays) using `Timer.every` and `Timer.after`:
 
 ```swift
-NSTimer.every(0.7.seconds) {
+Timer.every(0.7.seconds) {
     statusItem.blink()
 }
 
-NSTimer.after(1.minute) {
+Timer.after(1.minute) {
     println("Are you still here?")
 }
 ```
 
-SwiftyTimer uses closures instead of target/selector/userInfo.
-
-You can specify time intervals with intuitive [Ruby on Rails](http://rubyonrails.org)-like helpers:
+You can specify time intervals with these intuitive helpers:
 
 ```swift
-100.milliseconds
+100.ms
 1.second
 2.5.seconds
 5.seconds
@@ -42,27 +40,47 @@ You can specify time intervals with intuitive [Ruby on Rails](http://rubyonrails
 You can pass method references instead of closures:
 
 ```swift
-NSTimer.every(30.seconds, align)
+Timer.every(30.seconds, align)
 ```
+
+### Manual scheduling
 
 If you want to make a timer object without scheduling, use `new(after:)` and `new(every:)`:
 
 ```swift
-let timer = NSTimer.new(every: 1.second) {
+let timer = Timer.new(every: 1.second) {
     println(self.status)
 }
 ```
 
-(This should be defined as an initializer, but [a bug in Swift](http://www.openradar.me/18720947) prevents this)
+(This should be defined as an initializer, but [a bug in Foundation](http://www.openradar.me/18720947) prevents this)
 
 Call `start()` to schedule timers created using `new`. You can optionally pass the run loop and run loop modes:
 
 ```swift
 timer.start()
-timer.start(modes: NSDefaultRunLoopMode, NSEventTrackingRunLoopMode)
+timer.start(modes: .defaultRunLoopMode, .eventTrackingRunLoopMode)
+```
+
+### Invalidation
+
+If you want to invalidate a repeating timer on some condition, you can take a `Timer` argument in the closure you pass in:
+
+```swift
+Timer.every(5.seconds) { (timer: Timer) in
+    // do something
+    
+    if finished {
+        timer.invalidate()
+    }
+}
 ```
 
 ## Installation
+
+**Note:** If you're running Swift 2, use [SwiftyTimer v1.4.1](https://github.com/radex/SwiftyTimer/tree/1.4.1)
+
+#### CocoaPods
 
 If you're using CocoaPods, just add this line to your Podfile:
 

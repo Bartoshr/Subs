@@ -5,11 +5,14 @@
             )](http://mit-license.org)
 [![Platform](http://img.shields.io/badge/platform-iOS%20%26%20OSX-lightgrey.svg?style=flat
              )](https://developer.apple.com/resources/)
-[![Language](http://img.shields.io/badge/language-swift-orange.svg?style=flat
+[![Language](http://img.shields.io/badge/language-swift%203-orange.svg?style=flat
              )](https://developer.apple.com/swift)
 [![Issues](https://img.shields.io/github/issues/kodlian/AlamofireXMLRPC.svg?style=flat
                         )](https://github.com/kodlian/AlamofireXMLRPC/issues)
 [![Cocoapod](http://img.shields.io/cocoapods/v/AlamofireXMLRPC.svg?style=flat)](http://cocoadocs.org/docsets/AlamofireXMLRPC/)
+[![Build Status](https://travis-ci.org/kodlian/AlamofireXMLRPC.svg?branch=master)](https://travis-ci.org/kodlian/AlamofireXMLRPC)
+[![codecov](https://codecov.io/gh/kodlian/AlamofireXMLRPC/branch/master/graph/badge.svg)](https://codecov.io/gh/kodlian/AlamofireXMLRPC)
+[![codebeat badge](https://codebeat.co/badges/8021faba-a806-48ac-96bb-5b5ef95a542c)](https://codebeat.co/projects/github-com-kodlian-alamofirexmlrpc)
 
 
 AlamofireXMLRPC brings [XML RPC](http://xmlrpc.scripting.com/) functionalities to [Alamofire](https://github.com/Alamofire/Alamofire). It aims to provide an easy way to perform XMLRPC call and to retrieve smoothly the response.
@@ -18,22 +21,24 @@ XML is handled internally with [AEXML](https://github.com/tadija/AEXML).
 
 ## Example
 Take the following request and response handler:
+
 ```swift
 let data: NSData = ...
-let params: [Any] = [42, "text", 3.44, NSDate(), data]
-AlamofireXMLRPC.request("http://localhost:8888/xmlrpc", methodName: "foo", parameters: params).responseXMLRPC { (response:Response<[XMLRPCNode], NSError>) -> Void in
-      guard response.result.isSuccess else {
-        ...
-        return
+let params: [Any] = [42, "text", 3.44, Date(), data]
+AlamofireXMLRPC.request("http://localhost:8888/xmlrpc", methodName: "foo", parameters: params).responseXMLRPC { (response: DataResponse<XMLRPCNode>) -> Void in
+	   switch response.result {
+      case .success(let value):
+      		if let message = value[0].string, age = value[1]["age"].int32  {
+              ...
+     		}
+      case .failure:
+            ...
       }
 
-      if let value = response.result.value, message = value[0].string, age = value[1]["age"].int32  {
-              ...
-      }
-}
 ```
 
 It will generate the following call and lets you parse the corresponding answer from the XMLRPC service:
+
 ```xml
 <!-- request -->
 <methodCall>
@@ -126,7 +131,7 @@ Types adopting the ```XMLRPCRequestConvertible``` protocol can be used to constr
 
 ```swift
 public protocol XMLRPCRequestConvertible {
-    var URLString: URLStringConvertible { get }
+    var url: URLConvertible { get }
     var methodName: String { get }
     var parameters: [Any]? { get }
     var headers: [String : String]? { get }
@@ -150,62 +155,65 @@ AlamofireXMLRPC uses the following mapping for swift values to XML RPC values:
 | Int, Int32, Int16, Int8, UInt16, UInt8 	| 42   		| ```<int>42</int>``` 						| XML RPC Integer is 32bits, Int values are converted to Int32 	|
 | Bool 						| true  	| ```<boolean>1</boolean>``` 					| 								|
 | Double, Float 				| 3.44      	| ```<double>3.44</double>```					| 								|
-| NSDate 					| NSDate() 	| ```<dateTime.iso8601>19980717T14:08:55</dateTime.iso8601>``` 	| 								|
-| NSData 					| NSData()  	| ```<base64>eW91IGNhbid0IHJlYWQgdGhpcyE=</base64>``` 		| 								|
+| Date 					| Date() 	| ```<dateTime.iso8601>19980717T14:08:55</dateTime.iso8601>``` 	| 								|
+| Data 					| Data()  	| ```<base64>eW91IGNhbid0IHJlYWQgdGhpcyE=</base64>``` 		| 								|
 
-By default other types will be mapped as XML RPC String and use the default String representation. Bu you can provide your own mapping for custom Types by adopting the protocol ```XMLRPCValueConvertible```.
+By default other types will be mapped as XML RPC String and use the default String representation. Bu you can provide your own mapping for custom Types by adopting the protocol ```XMLRPCRawValueRepresentable```.
 
 ``` swift
 enum XMLRPCValueKind: String {
-    case Integer = "int"
-    case Double = "double"
-    case Boolean = "boolean"
-    case String = "string"
-    case DateTime = "dateTime.iso8601"
-    case Base64 = "base64"
+    case integer = "int"
+    case double = "double"
+    case boolean = "boolean"
+    case string = "string"
+    case dateTime = "dateTime.iso8601"
+    case base64 = "base64"
 }
 
-protocol XMLRPCValueConvertible {
-    var xmlRpcKind: XMLRPCValueKind { get }
-    var xmlRpcValue: String { get }
+protocol XMLRPCRawValueRepresentable {
+    static var xmlrpcKind: XMLRPCValueKind { get }
+    var xmlrpcRawValue: String { get }
+    init?(xmlrpcRawValue: String)
 }
 ```
 
 #### Collection
-Swift arrays ```[Any]``` are convertible to XMLRPC arrays but you need to cast them as ```XMLRPCArray```.
+Swift arrays ```[Any]``` are convertible to XMLRPC arrays.
+
 ```swift
-[1,"too"] as XMLRPCArray
+[1,"too"]
 ```
 
-As well dictionaries ```[String:Any]``` are convertible to XMLRPC structure by casting them as ```XMLRPCStructure```.
-```swift
-["name":"John Doe","age":35] as XMLRPCStructure
-```
+As well dictionaries ```[String:Any]``` are convertible to XMLRPC structure.
 
+```swift
+["name":"John Doe","age":35]
+```
 
 
 ## Response
 ### Response
-XMLRPC Responses are handled with the method ```responseXMLRPC(completionHandler: Response<[XMLRPCNode], NSError> -> Void)```. The received parameters are mapped to an ```XMLRPCNode```. This allows you to fetch easily data within complex structure or tree.
+XMLRPC Responses are handled with the method ```responseXMLRPC(completionHandler: DataResponse<XMLRPCNode> -> Void)```. The response's XMLRPC parameters are mapped to an ```XMLRPCNode```. This allows you to fetch easily data within complex structure or tree.
 
 #### Subscript
 For each XMLRPCNode you can access subnode by index or by String key. Internally children of XMLRPC Array and Structure will be fetched.
 
 ```swift
-aRequest.responseXMLRPC{ (response:Response<[XMLRPCNode], NSError>) -> Void in
-      guard let value = response.result.value where response.result.isSuccess else {
-        return
-      }
-
-      if let message = value[0]["aKey"][9].string  {
+aRequest.responseXMLRPC{ (response: DataResponse<XMLRPCNode>) -> Void in
+      switch response.result {
+      case .success(let value):
+      		if let message = value[0]["aKey"][9].string  {
               ...
+     		}
+      case .failure:
+            ...
       }
 }
 ```
 
 Don't worry about unwrapping things and checking the value type or presence. The optional management is solely done when you request the swift value with one of the optional getters.
 
-For instance, you can call ```value[0]["aKey"][9]``` without worrying if the objects tree actually exist.
+For instance, you can call ```value[0]["aKey"][9]``` without worrying if the objects tree actually exists.
 
 #### Optional getters
 
@@ -216,12 +224,10 @@ var string: String?
 var int32: Int32?
 var double: Double?
 var bool: Bool?
+var date: Date?
+var data: Data?
 var count: Int?
 ```
 
 ## License
 AlamofireXMLRPC is released under the MIT license. See [LICENSE](LICENSE) for details.
-
-## TO DO
-- XMLRPCNode enumeration
-- Find a way to avoid to cast array and dictionary for value mapping

@@ -10,115 +10,110 @@ import Foundation
 import Alamofire
 import AEXML
 
-// MARK: -
-extension Manager {
-    public func requestXMLRPC(URLString: URLStringConvertible, methodName: String, parameters: [Any]?, headers: [String : String]? = nil) -> Request {
-        
-        guard let xmlData = XMLRPCCallDocument(methodName: methodName, parameters: parameters).xmlString.dataUsingEncoding(NSUTF8StringEncoding) else {
-            fatalError("XML generation failed")
+// MARK: - Document Call
+class XMLRPCCallDocument: AEXMLDocument {
+    init(methodName: String, parameters someParams: [Any]?) {
+        // Build XMLRPC Call
+        super.init()
+        let xmlMethodCall = addChild(rpcNode: .methodCall)
+        xmlMethodCall.addChild(rpcNode: .methodName, value:methodName)
+        if let params = someParams {
+            xmlMethodCall.addChild(AEXMLElement(rpcParams: params))
         }
-        
-        return request(.POST, URLString, parameters: ["XML":xmlData], encoding: .Custom({ (URLRequest: URLRequestConvertible, p:[String : AnyObject]?) -> (NSMutableURLRequest, NSError?) in
-            let mutableURLRequest = URLRequest.URLRequest.mutableCopy() as! NSMutableURLRequest
-            mutableURLRequest.setValue("text/xml; charset=utf-8", forHTTPHeaderField: "Content-Type")
-            mutableURLRequest.HTTPBody = p?["XML"] as? NSData
-            
-            return (mutableURLRequest, nil)
-       
-        }), headers: headers)
     }
 }
 
-public func request(URLString: URLStringConvertible, methodName: String, parameters: [Any]?, headers: [String : String]? = nil) -> Request {
-    return Manager.sharedInstance.requestXMLRPC(
-        URLString,
-        methodName: methodName,
-        parameters: parameters,
-        headers: headers
+// MARK: -
+extension SessionManager {
+    public func requestXMLRPC(_ url: URLConvertible, methodName: String, parameters: [Any]?, headers: [String : String]? = nil) -> DataRequest {
+
+        let request = XMLRPCRequest(url: url, methodName: methodName, parameters: parameters, headers: headers)
+        let dataRequest = self.request(request)
+        return dataRequest
+    }
+}
+
+public func request(_ url: URLConvertible, methodName: String, parameters: [Any]?, headers: [String : String]? = nil) -> DataRequest {
+    return SessionManager.default.requestXMLRPC(
+        url, methodName: methodName, parameters: parameters, headers: headers
     )
 }
 
-public func request(XMLRPCRequest: XMLRPCRequestConvertible) -> Request {
-    return Manager.sharedInstance.request(XMLRPCRequest)
+public func request(_ XMLRPCRequest: XMLRPCRequestConvertible) -> DataRequest {
+    return SessionManager.default.request(XMLRPCRequest)
 }
 
 // MARK: - RequestConvertible
 public protocol XMLRPCRequestConvertible: URLRequestConvertible {
-    var URLString: URLStringConvertible { get }
+    var url: URLConvertible { get }
     var methodName: String { get }
     var parameters: [Any]? { get }
     var headers: [String : String]? { get }
 }
 
-//extension XMLRPCRequestConvertible {
-//    var parameters: [Any]? { return nil }
-//    var headers: [String : String]? { return nil }
-//}
-public extension URLRequestConvertible where Self:XMLRPCRequestConvertible {
-    public var URLRequest: NSMutableURLRequest {
-        
-        guard let url = NSURL(string: URLString.URLString) else {
-            fatalError("Wrong URL \(URLString)")
-        }
-        
-        let request = NSMutableURLRequest(URL: url)
-        request.HTTPMethod = "POST"
+extension XMLRPCRequestConvertible {
+    func asURLRequest() throws -> URLRequest {
+        let url = try self.url.asURL()
+      
+        var request = URLRequest(url: url)
+        request.httpMethod = HTTPMethod.post.rawValue
         if let h = headers {
-            for (key,value) in h {
+            for (key, value) in h {
                 request.setValue(value, forHTTPHeaderField: key)
             }
         }
         request.setValue("text/xml; charset=utf-8", forHTTPHeaderField: "Content-Type")
-        guard let xmlData = XMLRPCCallDocument(methodName: methodName, parameters: parameters).xmlString.dataUsingEncoding(NSUTF8StringEncoding) else {
-            fatalError("XML generation failed")
+        guard let xmlData = XMLRPCCallDocument(methodName: methodName, parameters: parameters).xml.data(using: String.Encoding.utf8) else {
+            throw XMLRPCError.parseFailed
         }
-        request.HTTPBody = xmlData
+        request.httpBody = xmlData
         
         return request
     }
 }
 
+fileprivate struct XMLRPCRequest: XMLRPCRequestConvertible {
+    var url: URLConvertible
+    var methodName: String
+    var parameters: [Any]?
+    var headers: [String : String]?
+}
+
 // MARK: - Response
-extension Request {
-    public static func XMLRPCResponseSerializer() -> ResponseSerializer<XMLRPCNode, NSError> {
-        return ResponseSerializer { request, response, data, error in
-            guard error == nil else { return .Failure(error!) }
-            
+extension DataRequest {
+    public static func XMLRPCResponseSerializer() -> DataResponseSerializer<XMLRPCNode> {
+        return DataResponseSerializer { request, response, data, error in
+            guard error == nil else {
+                return .failure(XMLRPCError.networkError(error))
+            }
+
             let result = XMLResponseSerializer().serializeResponse(request, response, data, error)
-            
-            guard let xml = result.value where result.isSuccess else {
-                return .Failure(result.error!)
+
+            guard let xml = result.value , result.isSuccess else {
+                return .failure(XMLRPCError.xmlSerializationFailed)
             }
-           
-            let xmlResponse = xml[.MethodResponse]
-            guard xmlResponse.name != AEXMLElement.errorElementName else {
-                let failureReason = "Method response could not be found."
-                let error = Error.errorWithCode(.DataSerializationFailed, failureReason: failureReason)
-                return .Failure(error)
+
+            let xmlResponse = xml[.methodResponse]
+            guard xmlResponse.error == nil else {
+                return .failure(XMLRPCError.nodeNotFound(node: .methodResponse))
             }
-            
-            let fault = xmlResponse[.Fault]
-            guard fault.name == AEXMLElement.errorElementName else {
-                let userInfo = [NSLocalizedFailureReasonErrorKey: fault.value ?? "Error Unknown"]
-                let error = NSError(domain: "com.kodlian.XMLRPC.error", code: 1, userInfo: userInfo)
-                return .Failure(error)
+
+            let fault = xmlResponse[.fault]
+            guard fault.error != nil else {
+                return .failure(XMLRPCError.fault(node: XMLRPCNode(xml: fault[.value])))
             }
-            
-            let params = xml[.MethodResponse][.Parameters]
-            if params.rpcNode == .Parameters {
-                return .Success(XMLRPCNode(xml:params))
+
+            let params = xmlResponse[.parameters]
+            if params.rpcNode == .parameters {
+                return .success(XMLRPCNode(xml:params))
+            } else {
+                return .failure(XMLRPCError.nodeNotFound(node: .parameters))
             }
-            else {
-                let failureReason = "Response parameters response could not be found."
-                let error = Error.errorWithCode(.DataSerializationFailed, failureReason: failureReason)
-                return .Failure(error)
-            }
-            
-            
         }
     }
-    
-    public func responseXMLRPC(completionHandler: Response<XMLRPCNode, NSError> -> Void) -> Self {
-        return response(responseSerializer: Request.XMLRPCResponseSerializer(), completionHandler: completionHandler)
+
+    @discardableResult public func responseXMLRPC(queue: DispatchQueue? = nil, completionHandler: @escaping (DataResponse<XMLRPCNode>) -> Void) -> Self {
+
+        return response(queue:queue, responseSerializer: DataRequest.XMLRPCResponseSerializer(), completionHandler: completionHandler)
     }
 }

@@ -15,11 +15,11 @@ class OSHashAlgorithm: NSObject {
         var fileSize: UInt64
     }
     
-    func hashForPath (path: String) -> VideoHash {
+    func hashForPath (_ path: String) -> VideoHash {
         var fileHash = VideoHash(fileHash: "", fileSize: 0)
-        let fileHandler = NSFileHandle(forReadingAtPath: path)!
+        let fileHandler = FileHandle(forReadingAtPath: path)!
         
-        let fileDataBegin: NSData = fileHandler.readDataOfLength(chunkSize)
+        let fileDataBegin: Data = fileHandler.readData(ofLength: chunkSize)
         fileHandler.seekToEndOfFile()
         
         let fileSize: UInt64 = fileHandler.offsetInFile
@@ -27,22 +27,22 @@ class OSHashAlgorithm: NSObject {
             return fileHash
         }
         
-        fileHandler.seekToFileOffset(max(0, fileSize - UInt64(chunkSize)))
-        let fileDataEnd: NSData = fileHandler.readDataOfLength(chunkSize)
+        fileHandler.seek(toFileOffset: max(0, fileSize - UInt64(chunkSize)))
+        let fileDataEnd: Data = fileHandler.readData(ofLength: chunkSize)
         
         var hash: UInt64 = fileSize
         
         var data_bytes = UnsafeBufferPointer<UInt64>(
-            start: UnsafePointer(fileDataBegin.bytes),
-            count: fileDataBegin.length/sizeof(UInt64)
+            start: (fileDataBegin as NSData).bytes.bindMemory(to: UInt64.self, capacity: fileDataBegin.count),
+            count: fileDataBegin.count/MemoryLayout<UInt64>.size
         )
-        hash = data_bytes.reduce(hash,combine: &+)
+        hash = data_bytes.reduce(hash,&+)
         
         data_bytes = UnsafeBufferPointer<UInt64>(
-            start: UnsafePointer(fileDataEnd.bytes),
-            count: fileDataEnd.length/sizeof(UInt64)
+            start: (fileDataEnd as NSData).bytes.bindMemory(to: UInt64.self, capacity: fileDataEnd.count),
+            count: fileDataEnd.count/MemoryLayout<UInt64>.size
         )
-        hash = data_bytes.reduce(hash,combine: &+)
+        hash = data_bytes.reduce(hash,&+)
         
         fileHash.fileHash = String(format:"%qx", arguments: [hash])
         fileHash.fileSize = fileSize

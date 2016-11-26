@@ -17,69 +17,128 @@ public enum XMLRPCValueKind: String {
     case Base64 = "base64"
 }
 
-public protocol XMLRPCValueConvertible {
-    var xmlRpcKind: XMLRPCValueKind { get }
-    var xmlRpcValue: String { get }
+public protocol XMLRPCRawValueRepresentable {
+    static var xmlRpcKind: XMLRPCValueKind { get }
+    var xmlRpcRawValue: String { get }
+    init?(xmlRpcRawValue: String)
 }
 
-public extension XMLRPCValueConvertible {
-    var xmlRpcKind: XMLRPCValueKind { return .String }
-    var xmlRpcValue: String { return String(self) }
-}
 
-extension String: XMLRPCValueConvertible {
-    public var xmlRpcKind: XMLRPCValueKind { return .String }
-    public var xmlRpcValue: String { return self }
-}
-
-extension Bool: XMLRPCValueConvertible {
-    public var xmlRpcKind: XMLRPCValueKind { return .Boolean }
-}
-
-extension XMLRPCValueConvertible where Self: IntegerType {
-    public var xmlRpcKind: XMLRPCValueKind { return .Integer }
-}
-extension Int: XMLRPCValueConvertible {
-    public var xmlRpcValue: String { return String(Int32(self))} // Truncate Int
-}
-extension Int32: XMLRPCValueConvertible { }
-extension Int16: XMLRPCValueConvertible { }
-extension Int8: XMLRPCValueConvertible { }
-extension UInt16: XMLRPCValueConvertible { }
-extension UInt8: XMLRPCValueConvertible { }
-
-public extension XMLRPCValueConvertible where Self: FloatingPointType  {
-    public var xmlRpcKind: XMLRPCValueKind { return .Double }
-}
-extension Double: XMLRPCValueConvertible { }
-extension Float: XMLRPCValueConvertible { }
-
-var ISO8601DateFormatter: NSDateFormatter = {
-    let dateFormatter = NSDateFormatter()
-    dateFormatter.locale = NSLocale(localeIdentifier: "en_US_POSIX")
-    dateFormatter.timeZone = NSTimeZone(abbreviation: "GMT")
-    dateFormatter.dateFormat = "yyyyMMdd'T'HH:mm:ss"
-    return dateFormatter
-    }()
-
-extension NSDate {
-    var ISO8601String: String {
-        return ISO8601DateFormatter.stringFromDate(self)
-    }
-}
-extension NSDate: XMLRPCValueConvertible {
-    public var xmlRpcKind: XMLRPCValueKind { return .DateTime }
-    public var xmlRpcValue: String {
-        return self.ISO8601String
+public extension XMLRPCRawValueRepresentable {
+    static var xmlRpcKind: XMLRPCValueKind { return .String }
+    var xmlRpcRawValue: String { return String(describing: self) }
+    init?(xmlRpcRawValue: String) {
+        return nil
     }
 }
 
-extension NSData: XMLRPCValueConvertible {
-    public var xmlRpcKind: XMLRPCValueKind { return .Base64 }
-    public var xmlRpcValue: String {
-        return self.base64EncodedStringWithOptions([])
+public extension RawRepresentable where RawValue == String, Self: XMLRPCRawValueRepresentable {
+    init?(xmlRpcRawValue: String) {
+        self.init(rawValue: xmlRpcRawValue)
+    }
+    var xmlRpcRawValue: String { return rawValue }
+}
+
+// MARK: String
+extension String: XMLRPCRawValueRepresentable {
+    public static var xmlRpcKind: XMLRPCValueKind { return .String }
+    public var xmlRpcRawValue: String { return self }
+    public init?(xmlRpcRawValue: String) {
+        self = xmlRpcRawValue
     }
 }
 
-public typealias XMLRPCStructure = [String:Any]
-public typealias XMLRPCArray = [Any]
+// MARK: Bool
+extension Bool: XMLRPCRawValueRepresentable {
+    public static var xmlRpcKind: XMLRPCValueKind { return .Boolean }
+    public var xmlRpcRawValue: String { return self ? "1" : "0" }
+    public init?(xmlRpcRawValue: String) {
+        self.init(Int8(xmlRpcRawValue) == 1)
+    }
+}
+
+// MARK: Integer
+extension XMLRPCRawValueRepresentable where Self: Integer {
+    public static var xmlRpcKind: XMLRPCValueKind { return .Integer }
+}
+
+public protocol StringRadixParsable {
+    init?(_ text: String, radix: Int)
+}
+
+extension XMLRPCRawValueRepresentable where Self: StringRadixParsable {
+    public init?(xmlRpcRawValue: String) {
+        self.init(xmlRpcRawValue, radix: 10)
+    }
+}
+
+extension Int: StringRadixParsable { }
+extension Int32: StringRadixParsable { }
+extension Int8: StringRadixParsable { }
+extension UInt16: StringRadixParsable { }
+extension UInt8: StringRadixParsable { }
+
+
+extension Int: XMLRPCRawValueRepresentable {
+    public var xmlRpcRawValue: String { return String(Int32(self))} // Truncate Int
+}
+extension Int32: XMLRPCRawValueRepresentable { }
+extension Int16: XMLRPCRawValueRepresentable { }
+extension Int8: XMLRPCRawValueRepresentable { }
+extension UInt16: XMLRPCRawValueRepresentable { }
+extension UInt8: XMLRPCRawValueRepresentable { }
+
+// MARK: Floating Point
+public extension XMLRPCRawValueRepresentable where Self: LosslessStringConvertible {
+    public init?(xmlRpcRawValue: String) {
+        self.init(xmlRpcRawValue)
+    }
+}
+
+public extension XMLRPCRawValueRepresentable where Self: FloatingPoint {
+    public static var xmlRpcKind: XMLRPCValueKind { return .Double }
+}
+
+extension Double: XMLRPCRawValueRepresentable { }
+extension Float: XMLRPCRawValueRepresentable { }
+
+// MARK: Date
+let iso8601DateFormatter: DateFormatter = {
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+        dateFormatter.timeZone = TimeZone(abbreviation: "GMT")
+        dateFormatter.dateFormat = "yyyyMMdd'T'HH:mm:ss"
+        return dateFormatter
+}()
+
+extension Date {
+    var iso8601String: String {
+        return iso8601DateFormatter.string(from: self)
+    }
+}
+extension Date: XMLRPCRawValueRepresentable {
+    public static var xmlRpcKind: XMLRPCValueKind { return .DateTime }
+    public var xmlRpcRawValue: String {
+        return self.iso8601String
+    }
+    public init?(xmlRpcRawValue: String) {
+        guard let date = iso8601DateFormatter.date(from: xmlRpcRawValue) else {
+            return nil
+        }
+        self = date
+    }
+}
+
+// MARK: Data
+extension Data: XMLRPCRawValueRepresentable {
+    public static var xmlRpcKind: XMLRPCValueKind { return .Base64 }
+    public var xmlRpcRawValue: String {
+        return self.base64EncodedString(options: [])
+    }
+    public init?(xmlRpcRawValue: String) {
+        guard let data = Data(base64Encoded: xmlRpcRawValue, options: .ignoreUnknownCharacters) else {
+            return nil
+        }
+        self = data
+    }
+}

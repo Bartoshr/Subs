@@ -22,42 +22,42 @@ class OpenSubtitles {
         self.userAgent = userAgent
     }
     
-    func getServerInfo(callback: (String)->Void){
+    func getServerInfo(_ callback: @escaping (String)->Void){
         execMethod("ServerInfo", params: []) { response in
-            if let data = response, info = data[0]["website_url"].string {
+            if let data = response, let info = data[0]["website_url"].string {
                 callback(info)
             }
         }
     }
     
-    func logIn(callback: (String)->Void){
+    func logIn(_ callback: @escaping (String)->Void){
         execMethod("LogIn", params: ["","","pl",userAgent]) { response in
-            if let data = response, token = data[0]["token"].string {
+            if let data = response, let token = data[0]["token"].string {
                 callback(token)
             }
         }
     }
     
-    func logOut(token : String, callback: (String)->Void){
+    func logOut(_ token : String, callback: @escaping (String)->Void){
         execMethod("LogOut", params: [token]) { response in
-            if let data = response, status = data[0]["status"].string {
+            if let data = response, let status = data[0]["status"].string {
                 callback(status)
             }
         }
     }
     
     
-    func searchSubtitles(token : String, paths: [String], properties: XMLRPCStructure?,  callback: ([Subtitle])->Void){
+    func searchSubtitles(_ token : String, paths: [String], properties: [String:Any]?,  callback: @escaping ([Subtitle])->Void){
         
-        let table : XMLRPCArray = paths.map{ (path) -> XMLRPCStructure in
+        let table = paths.map{ (path) -> [String:Any] in
             let osha = OSHashAlgorithm()
             let hash = osha.hashForPath(path).fileHash
-            return ["moviehash":hash,"sublanguageid":"eng"] as XMLRPCStructure
+            return ["moviehash":hash,"sublanguageid":"eng"] as [String:Any]
         }
         
-        let limit = ["limit":100] as XMLRPCStructure
+        let limit = ["limit":100] as [String:Any]
         execMethod("SearchSubtitles", params: [token, table, limit]) { response in
-            if let data = response, table = data[0]["data"].array {
+            if let data = response, let table = data[0]["data"].array {
                 
                 var result : [Subtitle] = []
                 
@@ -81,10 +81,10 @@ class OpenSubtitles {
         }
     }
     
-    func downloadSubtitles(token : String, subtitle: Subtitle,  callback: ([String],String)->Void){
+    func downloadSubtitles(_ token : String, subtitle: Subtitle,  callback: @escaping ([String],String)->Void){
         let ids: [Any] = [subtitle.idSubtitleFile]
         execMethod("DownloadSubtitles", params: [token, ids]) { response in
-            if let data = response, table = data[0]["data"].array {
+            if let data = response, let table = data[0]["data"].array {
                 
                 var result : [String] = []
                 
@@ -99,8 +99,8 @@ class OpenSubtitles {
     }
     
     
-    func execMethod(methodName: String, params: [Any], callback : (XMLRPCNode?)->Void){
-        AlamofireXMLRPC.request(host, methodName: methodName, parameters: params).responseXMLRPC { (response:Response<XMLRPCNode, NSError>) -> Void in
+    func execMethod(_ methodName: String, params: [Any], callback : @escaping (XMLRPCNode?)->Void){
+        AlamofireXMLRPC.request(host, methodName: methodName, parameters: params).responseXMLRPC { (response: DataResponse<XMLRPCNode>) -> Void in
             guard response.result.isSuccess else {
                 let alert = NSAlert()
                 alert.messageText = "Failure for \(methodName) \n \(response.description)"
@@ -112,6 +112,8 @@ class OpenSubtitles {
             }
         }
     }
+    
+
     
     
     

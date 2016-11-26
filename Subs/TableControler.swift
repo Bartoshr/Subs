@@ -19,14 +19,14 @@ class TableControler: NSViewController, NSTableViewDataSource, NSTableViewDelega
     
     var rowSelectedMethod : ((Subtitle)->Void)?
     
-    func numberOfRowsInTableView(aTableView: NSTableView) -> Int {
+    func numberOfRows(in aTableView: NSTableView) -> Int {
         return subtitles.count
     }
     
     
-    func tableView(tableView: NSTableView, viewForTableColumn tableColumn: NSTableColumn?, row: Int) -> NSView? {
+    func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
         
-        let cellView: NSTableCellView = tableView.makeViewWithIdentifier(tableColumn!.identifier, owner: self) as! NSTableCellView
+        let cellView: NSTableCellView = tableView.make(withIdentifier: tableColumn!.identifier, owner: self) as! NSTableCellView
         
         if tableColumn!.identifier == "Subtitle" {
             cellView.textField!.stringValue = subtitles[row].subFileName
@@ -37,18 +37,18 @@ class TableControler: NSViewController, NSTableViewDataSource, NSTableViewDelega
     }
     
     
-    func tableViewSelectionDidChange(notification: NSNotification) {
+    func tableViewSelectionDidChange(_ notification: Notification) {
         
         let myTableViewFromNotification = notification.object as! NSTableView
     
         if myTableViewFromNotification.numberOfSelectedRows != 0 {
             let indexes = myTableViewFromNotification.selectedRowIndexes
-            let index = indexes.firstIndex
+            let index = indexes.first
             
-            rowSelectedMethod!(subtitles[index])
+            rowSelectedMethod!(subtitles[index!])
             
-            NSApplication.sharedApplication().keyWindow?.orderOut(self)
-            NSApplication.sharedApplication().hide(self)
+            NSApplication.shared().keyWindow?.orderOut(self)
+            NSApplication.shared().hide(self)
         }
         
     }
