@@ -42,6 +42,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     func applicationDidFinishLaunching(_ aNotification: Notification) {
+        
+        self.window.titleVisibility = .hidden
+        self.window.titlebarAppearsTransparent = true
+        self.window.styleMask.insert(NSFullSizeContentViewWindowMask)
+        
         tableControler.rowSelectedMethod = download
         NSApp.servicesProvider = searchService
         NSUpdateDynamicServices()
