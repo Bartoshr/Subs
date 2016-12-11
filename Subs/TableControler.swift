@@ -13,7 +13,7 @@ import PathKit
 
 class TableControler: NSViewController, NSTableViewDataSource, NSTableViewDelegate {
     
-    @IBOutlet weak var tableView: NSTableView!
+    @IBOutlet weak var tableView: StripedTableView!
     
     var subtitles : [Subtitle] = []
     
@@ -36,6 +36,16 @@ class TableControler: NSViewController, NSTableViewDataSource, NSTableViewDelega
         return cellView
     }
     
+    func tableView(_ tableView: NSTableView, didAdd rowView: NSTableRowView, forRow row: Int) {
+        
+        
+        let evenColor = NSColor(calibratedRed: 0.25, green: 0.25, blue: 0.25, alpha: 1.00)
+        let oddColor = NSColor(calibratedRed: 0.20, green: 0.20, blue: 0.20, alpha: 1.00)
+        
+        let bgColor = (row % 2 == 0) ? evenColor : oddColor
+        rowView.backgroundColor = bgColor
+    }
+    
     
     func tableViewSelectionDidChange(_ notification: Notification) {
         
@@ -50,6 +60,6 @@ class TableControler: NSViewController, NSTableViewDataSource, NSTableViewDelega
             NSApplication.shared().keyWindow?.orderOut(self)
             NSApplication.shared().hide(self)
         }
-        
     }
+
 }

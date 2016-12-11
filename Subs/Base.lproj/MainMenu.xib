@@ -691,20 +691,20 @@
                             </button>
                         </subviews>
                     </visualEffectView>
-                    <scrollView autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jP3-Yi-E91">
-                        <rect key="frame" x="66" y="0.0" width="422" height="115"/>
+                    <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jP3-Yi-E91">
+                        <rect key="frame" x="66" y="0.0" width="422" height="111"/>
                         <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="qKS-Sz-Ooo">
-                            <rect key="frame" x="1" y="1" width="420" height="113"/>
+                            <rect key="frame" x="0.0" y="0.0" width="422" height="111"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
-                                <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" selectionHighlightStyle="none" alternatingRowBackgroundColors="YES" columnReordering="NO" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" viewBased="YES" id="TAn-9L-eUA">
-                                    <rect key="frame" x="0.0" y="0.0" width="420" height="113"/>
+                                <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnReordering="NO" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" viewBased="YES" id="TAn-9L-eUA" customClass="StripedTableView" customModule="Subs" customModuleProvider="target">
+                                    <rect key="frame" x="0.0" y="0.0" width="422" height="111"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <size key="intercellSpacing" width="3" height="2"/>
-                                    <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" white="0.32371808499999999" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                     <tableColumns>
-                                        <tableColumn identifier="Subtitle" width="417" minWidth="40" maxWidth="1000" id="cAQ-Hf-5p8" userLabel="Subittle">
+                                        <tableColumn identifier="Subtitle" width="419" minWidth="40" maxWidth="1000" id="cAQ-Hf-5p8" userLabel="Subittle">
                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border">
                                                 <font key="font" metaFont="smallSystem"/>
                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -718,7 +718,7 @@
                                             <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                             <prototypeCellViews>
                                                 <tableCellView id="Sgi-DK-FHt">
-                                                    <rect key="frame" x="1" y="1" width="417" height="17"/>
+                                                    <rect key="frame" x="1" y="1" width="419" height="17"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
                                                         <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="sFd-44-9qP">
@@ -729,7 +729,7 @@
                                                             <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="NSStatusNone" id="QNY-QX-zat"/>
                                                         </imageView>
                                                         <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" allowsExpansionToolTips="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ySb-ZE-zhF">
-                                                            <rect key="frame" x="25" y="0.0" width="476" height="17"/>
+                                                            <rect key="frame" x="25" y="0.0" width="478" height="17"/>
                                                             <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="Z2k-MH-u2Z">
                                                                 <font key="font" metaFont="system"/>
                                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -759,10 +759,10 @@
                                     </connections>
                                 </tableView>
                             </subviews>
-                            <nil key="backgroundColor"/>
+                            <color key="backgroundColor" name="highlightColor" catalog="System" colorSpace="catalog"/>
                         </clipView>
                         <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="K7c-Ox-uJd">
-                            <rect key="frame" x="1" y="241" width="420" height="16"/>
+                            <rect key="frame" x="0.0" y="98" width="422" height="16"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
                         <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="Dff-hG-cXg">
@@ -775,17 +775,17 @@
                     <constraint firstItem="eJC-6S-Gdb" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" id="5Aw-vt-ACc"/>
                     <constraint firstAttribute="bottom" secondItem="jP3-Yi-E91" secondAttribute="bottom" id="Lao-yk-MFV"/>
                     <constraint firstAttribute="bottom" secondItem="jP3-Yi-E91" secondAttribute="bottom" id="Q2f-XW-XuM"/>
-                    <constraint firstItem="jP3-Yi-E91" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" constant="-1" id="QKl-kB-D0w"/>
+                    <constraint firstItem="jP3-Yi-E91" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" constant="3" id="QKl-kB-D0w"/>
                     <constraint firstItem="eJC-6S-Gdb" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" id="a8G-jz-uOv"/>
                     <constraint firstAttribute="trailing" secondItem="jP3-Yi-E91" secondAttribute="trailing" id="agJ-tH-gnN"/>
                     <constraint firstItem="jP3-Yi-E91" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="66" id="ljI-kD-mD1"/>
                     <constraint firstAttribute="trailing" secondItem="eJC-6S-Gdb" secondAttribute="trailing" id="oVo-gZ-Iam"/>
                     <constraint firstAttribute="bottom" secondItem="eJC-6S-Gdb" secondAttribute="bottom" id="q6x-nM-iR3"/>
-                    <constraint firstItem="jP3-Yi-E91" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" constant="-1" id="t75-Qw-QNr"/>
+                    <constraint firstItem="jP3-Yi-E91" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" constant="3" id="t75-Qw-QNr"/>
                     <constraint firstAttribute="trailing" secondItem="jP3-Yi-E91" secondAttribute="trailing" id="xRb-po-rU8"/>
                 </constraints>
             </view>
-            <point key="canvasLocation" x="303" y="354"/>
+            <point key="canvasLocation" x="303" y="360"/>
         </window>
         <viewController id="tyZ-Xg-Q45" customClass="RootViewControler" customModule="Subs" customModuleProvider="target">
             <connections>

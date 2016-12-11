@@ -134,6 +134,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         procesFiles(filenames)
     }
     
+    
     func goToPreferences()->Void {
         print("OK Works")
     }
