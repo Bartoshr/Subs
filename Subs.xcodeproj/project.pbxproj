@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		062C9BA9C39B6EFA5459B030 /* Pods_SubsTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F1B5CDA3F67E7FA3B996CEB6 /* Pods_SubsTests.framework */; };
 		5D7058BF3644B156439BB76D /* Pods_SubsUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 257DDEE19EBD59D680CFBCCA /* Pods_SubsUITests.framework */; };
+		C90E9DCA1DFF006400D1CF0B /* Dictionary+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90E9DC91DFF006400D1CF0B /* Dictionary+Extension.swift */; };
 		C9527C541C92FF1C0075940E /* NSData+GZIP.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9527C531C92FF1C0075940E /* NSData+GZIP.swift */; };
 		C9527C561C93015C0075940E /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C9527C551C93015C0075940E /* libz.tbd */; };
 		C97097981C8CE16F00EF6F81 /* TableControler.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97097971C8CE16F00EF6F81 /* TableControler.swift */; };
@@ -52,6 +53,7 @@
 		A2AA95FDF9EDEA304846553C /* Pods-SubsUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SubsUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SubsUITests/Pods-SubsUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		A73C47C91AE026D5079E3363 /* Pods-SubsTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SubsTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SubsTests/Pods-SubsTests.debug.xcconfig"; sourceTree = "<group>"; };
 		C009EFBA77C508A8F93F891C /* Pods_Subs.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Subs.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C90E9DC91DFF006400D1CF0B /* Dictionary+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Dictionary+Extension.swift"; sourceTree = "<group>"; };
 		C9527C531C92FF1C0075940E /* NSData+GZIP.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSData+GZIP.swift"; sourceTree = "<group>"; };
 		C9527C551C93015C0075940E /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		C97097971C8CE16F00EF6F81 /* TableControler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableControler.swift; sourceTree = "<group>"; };
@@ -171,6 +173,7 @@
 				C9B8640B1C957B12003B3B3F /* SearchService.swift */,
 				C976D4B81DFC6A660045FA7F /* Images.xcassets */,
 				C9BB68F91DFC760A002B65F1 /* StripedTableView.swift */,
+				C90E9DC91DFF006400D1CF0B /* Dictionary+Extension.swift */,
 			);
 			path = Subs;
 			sourceTree = "<group>";
@@ -479,6 +482,7 @@
 				C971636F1C8C2DC400422531 /* OSHashAlgorithm.swift in Sources */,
 				C9EAE82F1C8B155300955EB2 /* RootViewControler.swift in Sources */,
 				C97097981C8CE16F00EF6F81 /* TableControler.swift in Sources */,
+				C90E9DCA1DFF006400D1CF0B /* Dictionary+Extension.swift in Sources */,
 				C9527C541C92FF1C0075940E /* NSData+GZIP.swift in Sources */,
 				C970979A1C8F5ED100EF6F81 /* Base64.swift in Sources */,
 				C9EAE8311C8B8BB700955EB2 /* OpenSubtitles.swift in Sources */,

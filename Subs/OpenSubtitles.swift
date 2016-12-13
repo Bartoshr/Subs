@@ -12,10 +12,19 @@ import AlamofireXMLRPC
 import PathKit
 
 
+
+
 class OpenSubtitles {
     
     var host: String
     var userAgent: String
+    
+    
+    // ISO 639.2
+    enum Language: String {
+        case English = "eng"
+        case Polish = "pol"
+    }
     
     init(host: String, userAgent: String){
         self.host = host
@@ -49,10 +58,15 @@ class OpenSubtitles {
     
     func searchSubtitles(_ token : String, paths: [String], properties: [String:Any]?,  callback: @escaping ([Subtitle])->Void){
         
-        let table = paths.map{ (path) -> [String:Any] in
+        let table = paths.map{ (path) -> [String:Any]? in
             let osha = OSHashAlgorithm()
             let hash = osha.hashForPath(path).fileHash
-            return ["moviehash":hash,"sublanguageid":"eng"] as [String:Any]
+            
+            guard let result = properties else  {
+                return ["moviehash":hash,"sublanguageid":"eng"]
+            }
+            
+            return ["moviehash":hash,"sublanguageid":"eng"] + result
         }
         
         let limit = ["limit":100] as [String:Any]
@@ -79,6 +93,11 @@ class OpenSubtitles {
                 callback(result)
             }
         }
+    }
+    
+    func searchSubtitles(_ token : String, paths: [String], lang: Language = Language.English,  callback: @escaping ([Subtitle])->Void){
+        let properties = ["sublanguageid":lang.rawValue]
+        searchSubtitles(token, paths: paths, properties: properties, callback: callback)
     }
     
     func downloadSubtitles(_ token : String, subtitle: Subtitle,  callback: @escaping ([String],String)->Void){
@@ -112,9 +131,5 @@ class OpenSubtitles {
             }
         }
     }
-    
-
-    
-    
     
 }

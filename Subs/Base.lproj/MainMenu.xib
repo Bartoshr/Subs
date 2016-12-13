@@ -15,6 +15,7 @@
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModule="Subs" customModuleProvider="target">
             <connections>
+                <outlet property="imageButton" destination="aBc-ey-TeB" id="trJ-Ec-J2F"/>
                 <outlet property="tableControler" destination="cUG-0P-sJl" id="kW7-q2-gSu"/>
                 <outlet property="window" destination="QvC-M9-y7g" id="gIp-Ho-8D9"/>
             </connections>
@@ -684,10 +685,13 @@
                             <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aBc-ey-TeB">
                                 <rect key="frame" x="9" y="40" width="48" height="48"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="English" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="6p9-Pr-naV">
+                                <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="English" imagePosition="overlaps" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="6p9-Pr-naV">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
+                                <connections>
+                                    <action selector="onFlagClick:" target="Voe-Tx-rLC" id="1hW-Y6-wUv"/>
+                                </connections>
                             </button>
                         </subviews>
                     </visualEffectView>

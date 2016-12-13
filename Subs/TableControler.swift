@@ -30,6 +30,7 @@ class TableControler: NSViewController, NSTableViewDataSource, NSTableViewDelega
         
         if tableColumn!.identifier == "Subtitle" {
             cellView.textField!.stringValue = subtitles[row].subFileName
+            cellView.textField!.textColor = NSColor.white
             return cellView
         }
         
@@ -37,13 +38,7 @@ class TableControler: NSViewController, NSTableViewDataSource, NSTableViewDelega
     }
     
     func tableView(_ tableView: NSTableView, didAdd rowView: NSTableRowView, forRow row: Int) {
-        
-        
-        let evenColor = NSColor(calibratedRed: 0.25, green: 0.25, blue: 0.25, alpha: 1.00)
-        let oddColor = NSColor(calibratedRed: 0.20, green: 0.20, blue: 0.20, alpha: 1.00)
-        
-        let bgColor = (row % 2 == 0) ? evenColor : oddColor
-        rowView.backgroundColor = bgColor
+        rowView.backgroundColor = NSColor(calibratedRed: 0, green: 0, blue: 0, alpha: 0)
     }
     
     

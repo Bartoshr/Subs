@@ -16,12 +16,15 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     @IBOutlet weak var window: NSWindow!
     @IBOutlet weak var tableControler: TableControler!
     
+    @IBOutlet weak var imageButton: NSButton!
+    
     let userAgent =  "OSTestUserAgentTemp";
     let host = "https://api.opensubtitles.org:443/xml-rpc"
     
     var openSubtitles : OpenSubtitles
     var searchService: SearchService
     
+  
     var token : String? = nil
     var subtitles : [Subtitle] = []
     
@@ -33,6 +36,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var searchOnStartup = false;
     var filenames: [String]? = nil;
     
+    var language : OpenSubtitles.Language = .English
+    
     override init(){
         openSubtitles = OpenSubtitles(host: host, userAgent: userAgent)
         searchService = SearchService()
@@ -42,7 +47,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     func applicationDidFinishLaunching(_ aNotification: Notification) {
-        
         self.window.titleVisibility = .hidden
         self.window.titlebarAppearsTransparent = true
         self.window.styleMask.insert(NSFullSizeContentViewWindowMask)
@@ -54,10 +58,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     // Actions
     
-    func search(_ paths: [String]){
+    func search(_ paths: [String], lang: OpenSubtitles.Language = .English){
         openSubtitles.searchSubtitles(self.token!,
             paths: paths,
-            properties: nil,
+            lang: lang,
             callback:searchComlpeted)
     }
     
@@ -72,9 +76,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         let directory = Path(filenames[0]).parent()
         filename = Path(filenames[0]).lastComponent
         
+        self.filenames = filenames
+        
         saveDirectory = directory.description+"/"
         print(directory.description)
-        search(filenames)
+        search(filenames, lang: language)
     }
     
     // Callbacks
@@ -137,6 +143,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     func goToPreferences()->Void {
         print("OK Works")
+    }
+    
+    @IBAction func onFlagClick(_ sender: NSButton) {
+        sender.image = (sender.image == #imageLiteral(resourceName: "English")) ? #imageLiteral(resourceName: "Polish") : #imageLiteral(resourceName: "English")
+        self.language = (sender.image == #imageLiteral(resourceName: "English")) ? .English : .Polish
+        search(filenames!, lang: language)
+        
     }
     
     func applicationDockMenu(_ sender: NSApplication) -> NSMenu? {
