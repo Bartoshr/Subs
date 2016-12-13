@@ -16,13 +16,16 @@ class StripedTableView: NSTableView  {
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
+        self.backgroundColor = NSColor(calibratedRed: 0.25, green: 0.25, blue: 0.25, alpha: 0.0)
     }
     
     override func drawBackground(inClipRect clipRect: NSRect) {
         super.drawBackground(inClipRect: clipRect)
         
-        let oddColor = NSColor(calibratedRed: 0.25, green: 0.25, blue: 0.25, alpha: 1.00)
-        let evenColor = NSColor(calibratedRed: 0.20, green: 0.20, blue: 0.20, alpha: 1.00)
+//        let oddColor = NSColor(calibratedRed: 0.25, green: 0.25, blue: 0.25, alpha: 0)
+//        let evenColor = NSColor(calibratedRed: 0.20, green: 0.20, blue: 0.20, alpha: 0)
+                let evenColor = NSColor(calibratedRed: 1, green: 1, blue: 1, alpha: 0.1)
+                let oddColor = NSColor(calibratedRed: 1, green: 1, blue: 1, alpha: 0.005)
         
         let rowHeight = self.rowHeight + self.intercellSpacing.height
         let visibleRect = self.visibleRect

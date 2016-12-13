@@ -17,6 +17,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     @IBOutlet weak var tableControler: TableControler!
     
     @IBOutlet weak var imageButton: NSButton!
+
     
     let userAgent =  "OSTestUserAgentTemp";
     let host = "https://api.opensubtitles.org:443/xml-rpc"
@@ -24,7 +25,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var openSubtitles : OpenSubtitles
     var searchService: SearchService
     
-  
     var token : String? = nil
     var subtitles : [Subtitle] = []
     
@@ -114,7 +114,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             return
         }
         
-        window.title = filename!
+//        window.title = filename!
         window.makeKeyAndOrderFront(self)
         tableControler.subtitles = data
         tableControler.tableView.reloadData()
@@ -125,8 +125,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         let decodedData = Data(base64Encoded: data[0], options:NSData.Base64DecodingOptions(rawValue: 0))
         let decompressedData : Data = try! decodedData!.gunzipped()
         try? decompressedData.write(to: URL(fileURLWithPath: saveDirectory!+filename), options: [.atomic])
-        
-
         NSApp.terminate(self)
     }
     
