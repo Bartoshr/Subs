@@ -34,6 +34,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     let emptySound = NSSound(named: "Hero")
     
     var searchOnStartup = false;
+    var asService = false;
     var filenames: [String]? = nil;
     
     var language : OpenSubtitles.Language = .English
@@ -86,6 +87,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     // Callbacks
     
     func serviceLaunched(_ filenames: [String]){
+        asService = true;
         if(token == nil) {
             self.filenames = filenames
             searchOnStartup = true
@@ -149,6 +151,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         search(filenames!, lang: language)
         
     }
+    
     
     func applicationDockMenu(_ sender: NSApplication) -> NSMenu? {
         let newMenu = NSMenu(title: "Menu")

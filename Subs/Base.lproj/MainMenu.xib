@@ -670,7 +670,7 @@
                 </menuItem>
             </items>
         </menu>
-        <window title="Subs" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="QvC-M9-y7g">
+        <window title="Subs" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="none" id="QvC-M9-y7g">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES" texturedBackground="YES"/>
             <windowCollectionBehavior key="collectionBehavior" moveToActiveSpace="YES"/>
             <rect key="contentRect" x="335" y="390" width="488" height="96"/>
@@ -680,10 +680,10 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <visualEffectView appearanceType="vibrantDark" blendingMode="behindWindow" material="appearanceBased" state="followsWindowActiveState" translatesAutoresizingMaskIntoConstraints="NO" id="eJC-6S-Gdb">
-                        <rect key="frame" x="0.0" y="0.0" width="488" height="96"/>
+                        <rect key="frame" x="0.0" y="0.0" width="488" height="95"/>
                         <subviews>
                             <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aBc-ey-TeB">
-                                <rect key="frame" x="9" y="22" width="48" height="48"/>
+                                <rect key="frame" x="9" y="21" width="48" height="48"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="English" imagePosition="overlaps" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="6p9-Pr-naV">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -696,13 +696,13 @@
                         </subviews>
                     </visualEffectView>
                     <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jP3-Yi-E91">
-                        <rect key="frame" x="66" y="0.0" width="422" height="71"/>
+                        <rect key="frame" x="66" y="0.0" width="422" height="75"/>
                         <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="qKS-Sz-Ooo">
-                            <rect key="frame" x="0.0" y="0.0" width="422" height="71"/>
+                            <rect key="frame" x="0.0" y="0.0" width="422" height="75"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnReordering="NO" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" viewBased="YES" id="TAn-9L-eUA" customClass="StripedTableView" customModule="Subs" customModuleProvider="target">
-                                    <rect key="frame" x="0.0" y="0.0" width="422" height="71"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="422" height="75"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <size key="intercellSpacing" width="3" height="2"/>
                                     <color key="backgroundColor" white="0.32371808499999999" alpha="1" colorSpace="calibratedWhite"/>
@@ -765,8 +765,11 @@
                             </subviews>
                             <color key="backgroundColor" name="highlightColor" catalog="System" colorSpace="catalog"/>
                         </clipView>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="75" id="AGK-G0-V8h"/>
+                        </constraints>
                         <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="K7c-Ox-uJd">
-                            <rect key="frame" x="0.0" y="98" width="422" height="16"/>
+                            <rect key="frame" x="0.0" y="60" width="422" height="16"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
                         <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="Dff-hG-cXg">
@@ -779,13 +782,13 @@
                     <constraint firstItem="eJC-6S-Gdb" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" id="5Aw-vt-ACc"/>
                     <constraint firstAttribute="bottom" secondItem="jP3-Yi-E91" secondAttribute="bottom" id="Lao-yk-MFV"/>
                     <constraint firstAttribute="bottom" secondItem="jP3-Yi-E91" secondAttribute="bottom" id="Q2f-XW-XuM"/>
-                    <constraint firstItem="jP3-Yi-E91" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" constant="25" id="QKl-kB-D0w"/>
-                    <constraint firstItem="eJC-6S-Gdb" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" id="a8G-jz-uOv"/>
+                    <constraint firstItem="jP3-Yi-E91" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" constant="21" id="QKl-kB-D0w"/>
+                    <constraint firstItem="eJC-6S-Gdb" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" constant="1" id="a8G-jz-uOv"/>
                     <constraint firstAttribute="trailing" secondItem="jP3-Yi-E91" secondAttribute="trailing" id="agJ-tH-gnN"/>
                     <constraint firstItem="jP3-Yi-E91" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="66" id="ljI-kD-mD1"/>
                     <constraint firstAttribute="trailing" secondItem="eJC-6S-Gdb" secondAttribute="trailing" id="oVo-gZ-Iam"/>
                     <constraint firstAttribute="bottom" secondItem="eJC-6S-Gdb" secondAttribute="bottom" id="q6x-nM-iR3"/>
-                    <constraint firstItem="jP3-Yi-E91" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" constant="25" id="t75-Qw-QNr"/>
+                    <constraint firstItem="jP3-Yi-E91" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" constant="21" id="t75-Qw-QNr"/>
                     <constraint firstAttribute="trailing" secondItem="jP3-Yi-E91" secondAttribute="trailing" id="xRb-po-rU8"/>
                 </constraints>
             </view>
