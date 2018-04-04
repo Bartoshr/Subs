@@ -19,7 +19,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     @IBOutlet weak var imageButton: NSButton!
 
     
-    let userAgent =  "OSTestUserAgentTemp";
+    let userAgent =  "TemporaryUserAgent";
     let host = "https://api.opensubtitles.org:443/xml-rpc"
     
     var openSubtitles : OpenSubtitles

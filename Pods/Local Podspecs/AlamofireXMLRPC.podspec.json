@@ -1,6 +1,6 @@
 {
   "name": "AlamofireXMLRPC",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "summary": "AlamofireXMLRPC brings XMLRPC functionalities to Alamofire.",
   "description": "AlamofireXMLRPC brings XMLRPC functionalities to Alamofire. It aims to provide an easy way to perform XMLRPC call and to retrieve smoothly the response.",
   "homepage": "https://github.com/kodlian/AlamofireXMLRPC",
@@ -14,9 +14,9 @@
   },
   "source": {
     "git": "https://github.com/kodlian/AlamofireXMLRPC.git",
-    "tag": "2.1.0"
+    "tag": "2.2.0"
   },
-  "source_files": "AlamofireXMLRPC/*.swift",
+  "source_files": "Sources/AlamofireXMLRPC/*.swift",
   "dependencies": {
     "Alamofire": [
 
